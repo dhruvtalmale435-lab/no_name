@@ -9,6 +9,108 @@ async function login(page, email = "admin@demo.local") {
     page.getByRole("heading", { name: "Coordination overview" }),
   ).toBeVisible();
 }
+
+test("Readable typography, contrast, journey navigation and narrow-screen sign out", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.screenshot({
+    path: "docs/screenshots/refreshed-login.png",
+    fullPage: true,
+  });
+  await login(page);
+  const audit = await page.evaluate(() => {
+    const rgb = (s) =>
+      s
+        .match(/[\d.]+/g)
+        ?.slice(0, 3)
+        .map(Number);
+    const luminance = (rgb) =>
+      rgb
+        .map((v) => {
+          const n = v / 255;
+          return n <= 0.04045 ? n / 12.92 : ((n + 0.055) / 1.055) ** 2.4;
+        })
+        .reduce((n, v, i) => n + v * [0.2126, 0.7152, 0.0722][i], 0);
+    const findings = [];
+    for (const selector of [
+      ".eyebrow",
+      ".section-copy",
+      ".stat-card small",
+      ".table-link",
+      "th",
+      "td small",
+      ".demo-banner",
+      ".badge",
+      ".primary",
+    ])
+      for (const e of document.querySelectorAll(selector)) {
+        if (!e.getClientRects().length) continue;
+        const style = getComputedStyle(e);
+        let background = "rgb(255,255,255)";
+        for (let ancestor = e; ancestor; ancestor = ancestor.parentElement) {
+          const color = getComputedStyle(ancestor).backgroundColor;
+          if (color !== "rgba(0, 0, 0, 0)" && color !== "transparent") {
+            background = color;
+            break;
+          }
+        }
+        const a = luminance(rgb(style.color)),
+          b = luminance(rgb(background));
+        const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+        if (parseFloat(style.fontSize) < 12 || ratio < 4.5)
+          findings.push({
+            selector,
+            text: e.textContent.trim().slice(0, 50),
+            size: style.fontSize,
+            contrast: Math.round(ratio * 100) / 100,
+          });
+      }
+    return findings;
+  });
+  expect(audit).toEqual([]);
+  await page.screenshot({
+    path: "docs/screenshots/refreshed-overview.png",
+    fullPage: true,
+  });
+  await page
+    .getByRole("button", { name: "Explore Compare & coordinate", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Overlap review", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Overview", exact: true }).click();
+  for (const width of [850, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect(
+      page.getByRole("button", { name: "Sign out", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Case registry", exact: true }),
+    ).toBeVisible();
+    const layout = await page.evaluate(() => ({
+      width: innerWidth,
+      pageWidth: document.documentElement.scrollWidth,
+      overflow: [...document.querySelectorAll("body *")]
+        .filter(
+          (e) =>
+            e.getBoundingClientRect().right > innerWidth + 1 &&
+            !e.closest(".table-wrap"),
+        )
+        .map((e) => ({
+          tag: e.tagName,
+          className: e.className,
+          right: Math.round(e.getBoundingClientRect().right),
+        }))
+        .slice(0, 10),
+    }));
+    expect(layout, JSON.stringify(layout)).toMatchObject({ pageWidth: width });
+  }
+  await page.screenshot({
+    path: "docs/screenshots/refreshed-mobile.png",
+    fullPage: true,
+  });
+});
 test("Login, true dashboard counts, role-aware navigation, refresh and logout", async ({
   page,
 }) => {
@@ -213,43 +315,95 @@ test("Failed API request presents recovery feedback and preserves usable navigat
     .click();
   await expect(page.getByRole("heading", { name: "All cases" })).toBeVisible();
 });
-test('CSV import, evidence attachment, invalid-form recovery and multi-user visibility',async({page,browser})=>{
+test("CSV import, evidence attachment, invalid-form recovery and multi-user visibility", async ({
+  page,
+  browser,
+}) => {
   await login(page);
-  await page.getByRole('button',{name:'Imports & policies',exact:true}).click();
-  await page.getByRole('button',{name:'Import records',exact:true}).click();
-  const dialog=page.getByRole('dialog',{name:'Import bureau source records'});
-  await dialog.getByLabel('Import format').selectOption('csv');
-  await dialog.getByLabel('Import source').selectOption('RB import');
-  const headers='title,description,institutionName,permanentId,region,category,period,bureau,receivedAt,sourceId';
-  const received=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-  const csv=headers+'\n"CSV browser complaint","Students allege an unauthorized autumn fee collection.",NVIT,,Northern,Fees,2026 autumn,RB,'+received+',BROWSER-CSV';
-  await dialog.getByLabel('Records',{exact:true}).fill(csv);
-  await dialog.getByRole('button',{name:'Validate & import'}).click();
+  await page
+    .getByRole("button", { name: "Imports & policies", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Import records", exact: true })
+    .click();
+  const dialog = page.getByRole("dialog", {
+    name: "Import bureau source records",
+  });
+  await dialog.getByLabel("Import format").selectOption("csv");
+  await dialog.getByLabel("Import source").selectOption("RB import");
+  const headers =
+    "title,description,institutionName,permanentId,region,category,period,bureau,receivedAt,sourceId";
+  const received = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+  const csv =
+    headers +
+    '\n"CSV browser complaint","Students allege an unauthorized autumn fee collection.",NVIT,,Northern,Fees,2026 autumn,RB,' +
+    received +
+    ",BROWSER-CSV";
+  await dialog.getByLabel("Records", { exact: true }).fill(csv);
+  await dialog.getByRole("button", { name: "Validate & import" }).click();
   await expect(dialog).not.toBeVisible();
   await expect(page.getByText(/1 created \/ 0 skipped/)).toBeVisible();
-  await page.getByRole('button',{name:'Case registry',exact:true}).click();
-  await page.getByLabel('Search cases').fill('BROWSER-CSV');
-  await page.getByRole('button',{name:'CSV browser complaint',exact:true}).click();
-  const detail=page.getByRole('dialog');
-  await detail.locator('input[type=file]').setInputFiles({name:'evidence.txt',mimeType:'text/plain',buffer:Buffer.from('Synthetic supporting evidence from the browser test')});
-  await detail.getByRole('button',{name:'Attach',exact:true}).click();
-  await expect(detail.getByRole('link',{name:'evidence.txt'})).toBeVisible();
-  await detail.getByLabel('Status',{exact:true}).selectOption('Disposed');
-  await detail.getByLabel('Action / justification').fill('Invalid direct disposal must be rejected');
-  await detail.getByRole('button',{name:'Save action',exact:true}).click();
-  await expect(page.getByRole('alert')).toContainText('Invalid status transition');
-  await expect(detail.getByLabel('Action / justification')).toHaveValue('Invalid direct disposal must be rejected');
-  await detail.getByLabel('Status',{exact:true}).selectOption('Under Process');
-  await detail.getByRole('button',{name:'Save action',exact:true}).click();
-  await expect(detail.getByText('Case updated: Pending → Under Process',{exact:true})).toBeVisible();
-  await detail.getByRole('button',{name:'Close dialog'}).click();
-  const observer=await browser.newContext();const other=await observer.newPage();
-  await login(other,'pgrc@demo.local');
-  await other.getByRole('button',{name:'Case registry',exact:true}).click();
-  await other.getByLabel('Search cases').fill('BROWSER-CSV');
-  await expect(other.locator('tbody tr')).toHaveCount(1);
-  await expect(other.locator('tbody tr').getByText('Under Process',{exact:true})).toBeVisible();
-  await other.getByRole('button',{name:'CSV browser complaint',exact:true}).click();
-  await expect(other.getByRole('button',{name:'Save action',exact:true})).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Case registry", exact: true })
+    .click();
+  await page.getByLabel("Search cases").fill("BROWSER-CSV");
+  await page
+    .getByRole("button", { name: "CSV browser complaint", exact: true })
+    .click();
+  const detail = page.getByRole("dialog");
+  await detail.locator("input[type=file]").setInputFiles({
+    name: "evidence.txt",
+    mimeType: "text/plain",
+    buffer: Buffer.from("Synthetic supporting evidence from the browser test"),
+  });
+  await detail.getByRole("button", { name: "Attach", exact: true }).click();
+  await expect(
+    detail.getByRole("link", { name: "evidence.txt" }),
+  ).toBeVisible();
+  await detail.getByLabel("Status", { exact: true }).selectOption("Disposed");
+  await detail
+    .getByLabel("Action / justification")
+    .fill("Invalid direct disposal must be rejected");
+  await detail
+    .getByRole("button", { name: "Save action", exact: true })
+    .click();
+  await expect(page.getByRole("alert")).toContainText(
+    "Invalid status transition",
+  );
+  await expect(detail.getByLabel("Action / justification")).toHaveValue(
+    "Invalid direct disposal must be rejected",
+  );
+  await detail
+    .getByLabel("Status", { exact: true })
+    .selectOption("Under Process");
+  await detail
+    .getByRole("button", { name: "Save action", exact: true })
+    .click();
+  await expect(
+    detail.getByText("Case updated: Pending → Under Process", { exact: true }),
+  ).toBeVisible();
+  await detail.getByRole("button", { name: "Close dialog" }).click();
+  const observer = await browser.newContext();
+  const other = await observer.newPage();
+  await login(other, "pgrc@demo.local");
+  await other
+    .getByRole("button", { name: "Case registry", exact: true })
+    .click();
+  await other.getByLabel("Search cases").fill("BROWSER-CSV");
+  await expect(other.locator("tbody tr")).toHaveCount(1);
+  await expect(
+    other.locator("tbody tr").getByText("Under Process", { exact: true }),
+  ).toBeVisible();
+  await other
+    .getByRole("button", { name: "CSV browser complaint", exact: true })
+    .click();
+  await expect(
+    other.getByRole("button", { name: "Save action", exact: true }),
+  ).toHaveCount(0);
   await observer.close();
 });

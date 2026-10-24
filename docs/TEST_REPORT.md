@@ -7,7 +7,7 @@ Date: 24 October 2026. Host: Windows, Node 24.14.0, npm 11.9.0, Microsoft Edge. 
 | `npm install` | Initial sandbox DNS ENOTFOUND; retried with network permission; dependencies installed, zero vulnerabilities reported |
 | `npm test` | **29 passed, 0 failed** after fixing the seed's nested transaction failure and permitting local loopback test traffic |
 | `npm run build` | TypeScript noEmit and Vite production compilation passed; final verification rerun after UI focus correction |
-| `npm run test:e2e` | **6 passed**, using actual Microsoft Edge and compiled frontend against temporary SQLite-backed API |
+| `npm run test:e2e` | **7 passed**, using actual Microsoft Edge and compiled frontend against temporary SQLite-backed API; includes the visual readability regression |
 | `npm run test:production` | Passed: production server startup, real DB health, built HTML/JS assets, CSP, Secure/HttpOnly session cookie |
 | `npm audit --omit=dev` | **0 vulnerabilities** reported |
 | `npm run seed` | Created **13** real persisted synthetic cases; repeatability also verified by integration test |
@@ -21,7 +21,7 @@ Four domain tests cover ID/alias/conflict/unresolved identity, issue versus inst
 
 Three CSV/reset tests cover BOM, quoted comma/quote/newline handling, boolean parsing, malformed CSV rejection and resolved demo-reset path boundaries.
 
-## Six actual browser journeys
+## Seven actual browser journeys
 
 1. Login, database-derived dashboard reconciliation, reload and logout; no page errors recorded in this journey.
 2. UI registration using verified alias, registry search, refresh persistence, officer assignment, status history and Institution 360 visibility.
@@ -29,6 +29,9 @@ Three CSV/reset tests cover BOM, quoted comma/quote/newline handling, boolean pa
 4. Viewer action restrictions including direct API attempt, report CSV download and mobile width overflow check at 390 × 844.
 5. Injected HTTP 503: visible error, dismissal, recovery and usable navigation.
 6. CSV import, uploaded supporting evidence, rejected invalid direct disposal with retained form values, recovery and a second bureau user's read-only visibility.
+7. Sampled key text measures at least 12 px with at least 4.5:1 foreground/background contrast; case-journey navigation works; labels and sign-out remain visible at 850/390 px; page does not overflow horizontally.
+
+Visual refresh: navy/teal palette, larger text, clearer metadata/status badges, responsive navigation and four-step workflow guide. The build and all seven browser journeys passed. A tablet overflow caused by an absolutely positioned hidden table label was reproduced and fixed by establishing the table container's positioning context. No backend, authentication, permission or case-service logic changed. New desktop/login/mobile screenshots: `docs/screenshots/refreshed-overview.png`, `refreshed-login.png`, `refreshed-mobile.png`. These checks sample key text; they are not a blanket accessibility certification.
 
 Browser outputs: `playwright-report/index.html` and `test-results/` (ignored generated files). Screenshots: `docs/screenshots/overview.png`, `docs/screenshots/mobile.png`. Desktop screenshot visually inspected; final screenshot refresh is part of final browser rerun.
 

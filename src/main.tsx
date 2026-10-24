@@ -711,6 +711,71 @@ function App() {
                   </div>
                 ))}
               </div>
+              <section
+                className="workflow-guide"
+                aria-labelledby="workflow-heading"
+              >
+                <div className="workflow-guide-heading">
+                  <div>
+                    <p className="eyebrow">THE CASE JOURNEY</p>
+                    <h2 id="workflow-heading">
+                      From receipt to accountable action
+                    </h2>
+                  </div>
+                  <span>
+                    <ShieldCheck size={16} /> Officer-led decisions
+                  </span>
+                </div>
+                <ol>
+                  {[
+                    [
+                      "01",
+                      "Capture & validate",
+                      "Original reference and complaint details",
+                      "Case registry",
+                      FileText,
+                    ],
+                    [
+                      "02",
+                      "Resolve institution",
+                      "Permanent ID, verified name or alias",
+                      "Institutions",
+                      Building2,
+                    ],
+                    [
+                      "03",
+                      "Compare & coordinate",
+                      "Explainable signals, reviewed by an officer",
+                      "Overlap review",
+                      GitCompareArrows,
+                    ],
+                    [
+                      "04",
+                      "Act & monitor",
+                      "Assignments, history, timelines and reports",
+                      "Reports",
+                      Activity,
+                    ],
+                  ].map(([number, title, description, target, Icon]: any) => (
+                    <li key={number}>
+                      <button
+                        onClick={() => go(target)}
+                        aria-label={`Explore ${title}`}
+                      >
+                        <span className="workflow-step-icon">
+                          <Icon size={19} />
+                        </span>
+                        <span className="workflow-step-body">
+                          <small>STEP {number}</small>
+                          <strong>{title}</strong>
+                          <span>{description}</span>
+                        </span>
+                        <ArrowRight className="workflow-arrow" size={16} />
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+              </section>
               <div className="overview-grid">
                 <section className="panel priority-panel">
                   <div className="section-heading">
