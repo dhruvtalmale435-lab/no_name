@@ -178,7 +178,7 @@ function App() {
     [review, setReview] = useState<any>(null),
     [selectedInstitution, setSelectedInstitution] = useState<any>(null);
   const [loginEmail, setLoginEmail] = useState("admin@demo.local"),
-    [loginPassword, setLoginPassword] = useState("");
+    [loginPassword, setLoginPassword] = useState("LocalDemo-26264!");
   const loadGeneration = React.useRef(0);
   const query = new URLSearchParams(
     Object.entries(filters).filter(([, v]) => v),
@@ -798,16 +798,16 @@ function App() {
                         <strong>
                           {
                             institutions.find(
-                              (i) => i.id === r.a.institution_id,
-                            )?.name
+                              (i) => i.id === r.a?.institution_id,
+                            )?.name || r.a?.institution_name || "Institution"
                           }
                         </strong>
-                        <p>{r.a.title}</p>
+                        <p>{r.a?.title}</p>
                         <div className="inline-tags">
-                          <Badge>{r.a.bureau}</Badge>
+                          <Badge>{r.a?.bureau}</Badge>
                           <Link2 size={13} />
-                          <Badge>{r.b.bureau}</Badge>
-                          <span>{r.reasons.length} matching signals</span>
+                          <Badge>{r.b?.bureau}</Badge>
+                          <span>{(r.reasons || []).length} matching signals</span>
                         </div>
                       </div>
                       <button
@@ -1066,34 +1066,34 @@ function App() {
                     </div>
                     <h2>
                       {
-                        institutions.find((i) => i.id === r.a.institution_id)
-                          ?.name
+                        institutions.find((i) => i.id === r.a?.institution_id)
+                          ?.name || r.a?.institution_name || "Institution"
                       }
                     </h2>
                     <div className="comparison">
                       <div>
-                        <Badge>{r.a.bureau}</Badge>
+                        <Badge>{r.a?.bureau}</Badge>
                         <button
                           className="table-link"
-                          onClick={() => void openCase(r.a.id)}
+                          onClick={() => void openCase(r.a?.id)}
                         >
-                          {r.a.title}
+                          {r.a?.title}
                         </button>
                         <small>
-                          {r.a.id} · {r.a.category}
+                          {r.a?.id} · {r.a?.category}
                         </small>
                       </div>
                       <Link2 size={20} />
                       <div>
-                        <Badge>{r.b.bureau}</Badge>
+                        <Badge>{r.b?.bureau}</Badge>
                         <button
                           className="table-link"
-                          onClick={() => void openCase(r.b.id)}
+                          onClick={() => void openCase(r.b?.id)}
                         >
-                          {r.b.title}
+                          {r.b?.title}
                         </button>
                         <small>
-                          {r.b.id} · {r.b.category}
+                          {r.b?.id} · {r.b?.category}
                         </small>
                       </div>
                     </div>

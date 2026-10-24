@@ -13,7 +13,7 @@ try {
   const base='http://127.0.0.1:3201';
   const health=await fetch(base+'/api/health');assert.equal((await health.json()).status,'ok');
   const page=await fetch(base+'/');assert.equal(page.status,200);const html=await page.text();assert.match(html,/Institution 360/);assert.match(page.headers.get('content-security-policy'),/default-src/);
-  const asset=html.match(/src="([^"]+\.js)"/)[1];assert.equal((await fetch(base+asset)).status,200);
+  const asset=html.match(/src="([^"]+\.js)"/)[1];assert.equal((await fetch(new URL(asset, base + '/').href)).status,200);
   const login=await fetch(base+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'admin@demo.local',password:'ProductionSmokePassword!'})});assert.equal(login.status,200);assert.match(login.headers.get('set-cookie'),/Secure/);assert.match(login.headers.get('set-cookie'),/HttpOnly/);
   console.log('PASS: production startup, DB health, built HTML/assets, CSP and Secure/HttpOnly session cookie');
 } finally {child.kill();await new Promise(resolve=>child.once('exit',resolve));rmSync(folder,{recursive:true,force:true});}
