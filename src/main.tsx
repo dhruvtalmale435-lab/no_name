@@ -286,7 +286,7 @@ function App() {
     setSelectedInstitution(null);
     setNotice("");
   };
-  if (boot) return <div className="boot">Loading Institution 360…</div>;
+  if (boot) return <div className="boot">Loading BureauSetu…</div>;
   if (!user)
     return (
       <div className="login">
@@ -296,7 +296,7 @@ function App() {
               <Building2 />
             </div>
             <span>
-              Institution<span className="brand-light">360</span>
+              Bureau<span className="brand-light">Setu</span>
             </span>
           </div>
           <div>
@@ -508,7 +508,7 @@ function App() {
             <Building2 size={23} />
           </div>
           <span>
-            Institution<span className="brand-light">360</span>
+            Bureau<span className="brand-light">Setu</span>
           </span>
         </div>
         <div className="workspace-label">COORDINATION WORKSPACE</div>
@@ -618,7 +618,7 @@ function App() {
               <p className="eyebrow">
                 {page === "Overview"
                   ? "CROSS-BUREAU INTELLIGENCE"
-                  : "INSTITUTION 360"}
+                  : "BUREAUSETU"}
               </p>
               <h1>{page === "Overview" ? "Coordination overview" : page}</h1>
               <p>
@@ -1364,7 +1364,7 @@ function App() {
             </>
           )}
           <footer>
-            Institution 360 <span>·</span> SIH26264 <span>·</span> Authorized
+            BureauSetu <span>·</span> SIH26264 <span>·</span> Authorized
             coordination workspace{" "}
             <span className="footer-right">All dates shown in IST</span>
           </footer>
@@ -1550,7 +1550,7 @@ function App() {
       )}
       {selectedInstitution && (
         <Modal
-          title="Institution 360"
+          title="Institution profile"
           close={() => setSelectedInstitution(null)}
           wide
         >

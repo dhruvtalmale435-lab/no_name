@@ -1,6 +1,8 @@
-# Alignment with the supplied Institution 360 workflow
+# BureauSetu workflow alignment
 
 Reviewed against the user's workflow diagram, 24 October 2026. This check maps existing implementation rather than changing business rules.
+
+The product is named **BureauSetu** throughout the application and project documentation. The institution-history screen is labeled “Institution profile”. The default SQLite filename is `bureausetu.sqlite`; existing deployments may keep a custom `DATABASE_PATH` to preserve their records and sessions.
 
 | Diagram stage | Existing application | Assessment |
 |---|---|---|
@@ -16,7 +18,7 @@ Reviewed against the user's workflow diagram, 24 October 2026. This check maps e
 | Assignment / transfer / officer action | Bureau-controlled update service; officer membership checks; explicit valid transitions | Aligned |
 | Status, remarks and documents | Case detail actions and authorized evidence uploads/downloads | Aligned |
 | Audit and timeline | Append-only chronological case events with actor, bureau and timestamp | Aligned |
-| Dashboard / reports / Institution 360 | Database-derived counts, history, workload, ageing, monthly/quarterly reports, filters and export | Aligned |
+| Dashboard / reports / institution profile | Database-derived counts, history, workload, ageing, monthly/quarterly reports, filters and export | Aligned |
 | SLA / escalation alerts | Illustrative deadline policies, in-app reminders and audited manual escalation | Prototype scope: reminders are generated during polling; escalation is officer-controlled, not an autonomous regulatory action. |
 
 ## Presentation update

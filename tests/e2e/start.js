@@ -5,7 +5,7 @@ import express from "express";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-const folder = mkdtempSync(join(tmpdir(), "institution360-e2e-"));
+const folder = mkdtempSync(join(tmpdir(), "bureausetu-e2e-"));
 const db = openDb(join(folder, "demo.sqlite"));
 seed(db, "BrowserTestPassword!");
 const app = createApp(db, { demo: true });

@@ -650,7 +650,7 @@ export function createApp(db, { production = false, demo = false } = {}) {
       .set({
         "Content-Type": "text/csv; charset=utf-8",
         "Content-Disposition":
-          'attachment; filename="institution360-cases.csv"',
+          'attachment; filename="bureausetu-cases.csv"',
       })
       .send(
         "\uFEFF" +

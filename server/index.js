@@ -28,7 +28,7 @@ const server = app.listen(
   process.env.HOST || "127.0.0.1",
   () =>
     console.log(
-      `Institution 360 listening at http://${process.env.HOST || "127.0.0.1"}:${process.env.PORT || 3000}`,
+      `BureauSetu listening at http://${process.env.HOST || "127.0.0.1"}:${process.env.PORT || 3000}`,
     ),
 );
 function stop() {

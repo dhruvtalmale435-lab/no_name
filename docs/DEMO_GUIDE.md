@@ -8,7 +8,7 @@ All institutions, officers and complaints are synthetic. There is no live govern
 
 ## 30-second opening
 
-“When two AICTE bureaus handle complaints about the same institution, each can act without seeing the other's investigation. Institution 360 resolves institution identity, highlights explainable cross-bureau relationships, and lets an accountable official coordinate action while preserving both original cases. This demonstration uses synthetic records in a real local database.”
+“When two AICTE bureaus handle complaints about the same institution, each can act without seeing the other's investigation. BureauSetu resolves institution identity, highlights explainable cross-bureau relationships, and lets an accountable official coordinate action while preserving both original cases. This demonstration uses synthetic records in a real local database.”
 
 ## Three-minute story
 

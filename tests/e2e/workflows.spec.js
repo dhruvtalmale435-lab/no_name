@@ -210,7 +210,7 @@ test("Register through UI, alias matching, persistent search result, assign, upd
     })
     .click();
   await expect(
-    page.getByRole("dialog", { name: "Institution 360" }).getByRole("button", {
+    page.getByRole("dialog", { name: "Institution profile" }).getByRole("button", {
       name: "Browser verified examination fees",
       exact: true,
     }),
@@ -280,7 +280,7 @@ test("Read-only monitoring rejects direct writes; responsive layout and reports 
     page.waitForEvent("download"),
     page.getByRole("link", { name: "Export cases" }).click(),
   ]);
-  expect(download.suggestedFilename()).toBe("institution360-cases.csv");
+  expect(download.suggestedFilename()).toBe("bureausetu-cases.csv");
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({
     path: "docs/screenshots/mobile.png",

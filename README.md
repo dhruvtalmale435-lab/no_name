@@ -1,4 +1,4 @@
-# Institution 360
+# BureauSetu
 
 Working local prototype for **SIH26264 — Integrated Dashboard for Monitoring and Tracking Institution-Related Complaint Cases Across AICTE Bureaus/Cells**. Official requirements: [SIH 2026](https://sih.gov.in/sih2026PS). Independent prototype; no affiliation or live AICTE data connection is claimed.
 

@@ -4,7 +4,7 @@ Official source: https://sih.gov.in/sih2026PS (verified 24 October 2026). User-s
 
 | Requirement | UI / API / storage | Acceptance evidence | Status |
 |---|---|---|---|
-| Central institution profile and permanent ID | Institutions / Institution 360; GET institutions and case filters; institutions, aliases, cases | Alias/ID conflict tests; institution browser journey | COMPLETE for seeded registry; registry administration absent |
+| Central institution profile and permanent ID | Institutions / Institution profile; GET institutions and case filters; institutions, aliases, cases | Alias/ID conflict tests; institution browser journey | COMPLETE for seeded registry; registry administration absent |
 | Unique complaint ID, date, category, status, bureau, officer, last/next action, deadlines | Registration and detail; POST/PATCH cases; cases/events | Real HTTP workflow, persistence, assignment and transition tests | COMPLETE |
 | Cross-bureau overlap detection | Overview + comparison; GET overlaps; relationships | Related versus independent domain/API and browser tests | COMPLETE rules baseline; semantic matching unimplemented |
 | Related-case mapping and human decision | Review form + tasks; overlap review/task endpoints | Review persists in both timelines; task browser test | COMPLETE |

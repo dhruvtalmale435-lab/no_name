@@ -24,7 +24,7 @@ Three CSV/reset tests cover BOM, quoted comma/quote/newline handling, boolean pa
 ## Seven actual browser journeys
 
 1. Login, database-derived dashboard reconciliation, reload and logout; no page errors recorded in this journey.
-2. UI registration using verified alias, registry search, refresh persistence, officer assignment, status history and Institution 360 visibility.
+2. UI registration using verified alias, registry search, refresh persistence, officer assignment, status history and institution-profile visibility.
 3. Explainable case comparison, justified review, coordination task completion, source timeline and unrelated salary counterexample.
 4. Viewer action restrictions including direct API attempt, report CSV download and mobile width overflow check at 390 × 844.
 5. Injected HTTP 503: visible error, dismissal, recovery and usable navigation.
@@ -32,6 +32,10 @@ Three CSV/reset tests cover BOM, quoted comma/quote/newline handling, boolean pa
 7. Sampled key text measures at least 12 px with at least 4.5:1 foreground/background contrast; case-journey navigation works; labels and sign-out remain visible at 850/390 px; page does not overflow horizontally.
 
 Visual refresh: navy/teal palette, larger text, clearer metadata/status badges, responsive navigation and four-step workflow guide. The build and all seven browser journeys passed. A tablet overflow caused by an absolutely positioned hidden table label was reproduced and fixed by establishing the table container's positioning context. No backend, authentication, permission or case-service logic changed. New desktop/login/mobile screenshots: `docs/screenshots/refreshed-overview.png`, `refreshed-login.png`, `refreshed-mobile.png`. These checks sample key text; they are not a blanket accessibility certification.
+
+Brand rename to BureauSetu: browser title, login/sidebar branding, loading text, footer, package identity, report download name, documentation, default database filename and test-directory prefixes were updated. The institution history dialog is now labeled “Institution profile”. Existing deployments can retain custom database paths, and local records are preserved when copying to the renamed database file. Authentication and case workflows are unchanged. Build, API, production and browser verification results are recorded for this rename below.
+
+Completed rebrand verification: **29 API/domain tests passed, 7 browser journeys passed, production build passed and production startup/security smoke passed**. No old product-name references remain in tracked text files. The local renamed database passed `PRAGMA integrity_check` and retained all 13 cases; the original ignored database is retained as a backup. Environment secrets and runtime databases are excluded from Git.
 
 Browser outputs: `playwright-report/index.html` and `test-results/` (ignored generated files). Screenshots: `docs/screenshots/overview.png`, `docs/screenshots/mobile.png`. Desktop screenshot visually inspected; final screenshot refresh is part of final browser rerun.
 

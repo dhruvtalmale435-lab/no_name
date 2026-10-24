@@ -281,7 +281,7 @@ if (
 ) {
   if (process.env.DEMO_MODE !== "true" || process.env.NODE_ENV === "production")
     throw new Error("Seed/reset allowed only in non-production DEMO_MODE=true");
-  const path = process.env.DATABASE_PATH || "./data/institution360.sqlite";
+  const path = process.env.DATABASE_PATH || "./data/bureausetu.sqlite";
   if (process.argv.includes("--reset")) {
     const resetTarget = demoResetPath(path);
     if (!process.env.DEMO_PASSWORD || process.env.DEMO_PASSWORD.length < 12)

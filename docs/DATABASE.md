@@ -1,6 +1,6 @@
 # Database
 
-SQLite, not PostgreSQL. Default ignored path `./data/institution360.sqlite`. Migration `server/migrations/001_initial.sql` runs idempotently from `openDb`; `schema_migrations` records version 1. Add versioned migrations for future changes; never modify a live schema with reset.
+SQLite, not PostgreSQL. Default ignored path `./data/bureausetu.sqlite`. Migration `server/migrations/001_initial.sql` runs idempotently from `openDb`; `schema_migrations` records version 1. Add versioned migrations for future changes; never modify a live schema with reset.
 
 | Table | Purpose / constraints |
 |---|---|

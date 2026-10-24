@@ -57,7 +57,7 @@ const body = (suffix = "1", overrides = {}) => ({
   ...overrides,
 });
 before(async () => {
-  temp = mkdtempSync(join(tmpdir(), "institution360-"));
+  temp = mkdtempSync(join(tmpdir(), "bureausetu-"));
   db = openDb(join(temp, "test.sqlite"));
   seed(db, password);
   server = createApp(db, { demo: true }).listen(0, "127.0.0.1");

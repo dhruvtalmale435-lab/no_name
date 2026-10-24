@@ -2,7 +2,7 @@ import { DatabaseSync } from "node:sqlite";
 import { mkdirSync, readFileSync } from "node:fs";
 import { dirname } from "node:path";
 export function openDb(
-  path = process.env.DATABASE_PATH || "./data/institution360.sqlite",
+  path = process.env.DATABASE_PATH || "./data/bureausetu.sqlite",
 ) {
   if (path !== ":memory:") mkdirSync(dirname(path), { recursive: true });
   const db = new DatabaseSync(path);
