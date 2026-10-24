@@ -45,4 +45,6 @@ Browser outputs: `playwright-report/index.html` and `test-results/` (ignored gen
 
 ## Verification boundaries
 
+GitHub Pages repair: verified a separate Pages build at the `/no_name/` path in Microsoft Edge. The preview rendered, assets loaded without HTTP errors, no API requests were made and no password form was shown. Normal build and login/dashboard/refresh/logout browser regression also passed. Pages publishing was changed from raw branch files to the compiled Actions workflow. This static preview does not host any backend features.
+
 Docker execution, remote hosting, PostgreSQL, authorized government APIs, SSO, malware inspection, backup recovery, large-volume load, external notifications and independent labeled matching evaluation were **not** run. Unit examples are not an accuracy benchmark. No model accuracy/performance or regulatory compliance claim is made. Node's SQLite experimental warning is expected.

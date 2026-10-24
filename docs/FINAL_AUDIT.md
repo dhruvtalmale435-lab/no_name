@@ -49,6 +49,6 @@ Verdict: **READY WITH LIMITATIONS for a local SIH demonstration using synthetic 
 
 ## Deployment status
 
-Verified local app: http://127.0.0.1:3000. Production mode verified temporarily on port 3201 by smoke script. No public deployment URL exists. The app can build and serve production assets, but real deployment remains conditional on identity, data access, HTTPS and the controls above. Dockerfile/Compose are prepared configuration, not an executed deployment claim.
+Verified local app: http://127.0.0.1:3000. Production mode verified temporarily on port 3201 by smoke script. No public full-stack deployment exists. GitHub Pages is configured to publish only a clearly labeled frontend preview at https://dhruvtalmale435-lab.github.io/no_name/; it does not run the API/database. The app can build and serve production assets, but operational deployment remains conditional on identity, data access, HTTPS and the controls above. Dockerfile/Compose are prepared configuration, not an executed deployment claim.
 
 No PPT supplied: no assertion that any existing slides match. REQUIREMENTS.md maps official capabilities; DEMO_GUIDE.md gives an evidence-based pitch and technical questions.
