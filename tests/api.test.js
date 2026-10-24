@@ -562,6 +562,35 @@ test("Database survives closing and reopening connection", () => {
   );
   second.close();
 });
+test("Public demo access never exposes custom passwords or production credentials", async () => {
+  const prior = process.env.DEMO_PASSWORD;
+  async function access(options) {
+    const tempServer = createApp(db, options).listen(0, "127.0.0.1");
+    await new Promise((resolve) => tempServer.once("listening", resolve));
+    try {
+      return await (
+        await fetch(
+          "http://127.0.0.1:" + tempServer.address().port + "/api/demo-access",
+        )
+      ).json();
+    } finally {
+      await new Promise((resolve) => tempServer.close(resolve));
+    }
+  }
+  try {
+    process.env.DEMO_PASSWORD = "PrivateCustomSeedPassword!";
+    assert.deepEqual(await access({ demo: true }), { enabled: false });
+    process.env.DEMO_PASSWORD = "LocalDemo-26264!";
+    assert.equal((await access({ demo: true })).password, "LocalDemo-26264!");
+    assert.deepEqual(await access({ demo: true, production: true }), {
+      enabled: false,
+    });
+    assert.deepEqual(await access({ demo: false }), { enabled: false });
+  } finally {
+    if (prior === undefined) delete process.env.DEMO_PASSWORD;
+    else process.env.DEMO_PASSWORD = prior;
+  }
+});
 test("CSV imports validate source bureau and idempotently persist quoted records", async () => {
   const record = body("csv", { title: "CSV, quoted examination complaint" });
   const headers = Object.keys(record),

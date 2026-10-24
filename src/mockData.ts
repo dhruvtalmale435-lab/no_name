@@ -6,20 +6,76 @@ export const mockMeta = {
     { id: "RO", name: "Regional Office" },
   ],
   officers: [
-    { id: "admin", name: "Ananya Rao", email: "admin@demo.local", role: "admin", bureau: null },
-    { id: "rb", name: "Arjun Mehta", email: "rb@demo.local", role: "officer", bureau: "RB" },
-    { id: "pgrc", name: "Priya Nair", email: "pgrc@demo.local", role: "officer", bureau: "PGRC" },
-    { id: "ro", name: "Kabir Sen", email: "ro@demo.local", role: "officer", bureau: "RO" },
-    { id: "viewer", name: "Meera Iyer", email: "viewer@demo.local", role: "viewer", bureau: null },
+    {
+      id: "admin",
+      name: "Ananya Rao",
+      email: "admin@demo.local",
+      role: "admin",
+      bureau: null,
+    },
+    {
+      id: "rb",
+      name: "Arjun Mehta",
+      email: "rb@demo.local",
+      role: "officer",
+      bureau: "RB",
+    },
+    {
+      id: "pgrc",
+      name: "Priya Nair",
+      email: "pgrc@demo.local",
+      role: "officer",
+      bureau: "PGRC",
+    },
+    {
+      id: "ro",
+      name: "Kabir Sen",
+      email: "ro@demo.local",
+      role: "officer",
+      bureau: "RO",
+    },
+    {
+      id: "viewer",
+      name: "Meera Iyer",
+      email: "viewer@demo.local",
+      role: "viewer",
+      bureau: null,
+    },
   ],
-  categories: ["Fees", "Faculty salary", "Admission", "Infrastructure", "Governance"],
+  categories: [
+    "Fees",
+    "Faculty salary",
+    "Admission",
+    "Infrastructure",
+    "Governance",
+  ],
   statuses: ["Pending", "Under Process", "Escalated", "Disposed"],
   policies: [
-    { category: "Fees", target_days: 21, description: "Illustrative demo policy — not an official AICTE timeline" },
-    { category: "Faculty salary", target_days: 21, description: "Illustrative demo policy — not an official AICTE timeline" },
-    { category: "Admission", target_days: 21, description: "Illustrative demo policy — not an official AICTE timeline" },
-    { category: "Infrastructure", target_days: 30, description: "Illustrative demo policy — not an official AICTE timeline" },
-    { category: "Governance", target_days: 21, description: "Illustrative demo policy — not an official AICTE timeline" },
+    {
+      category: "Fees",
+      target_days: 21,
+      description: "Illustrative demo policy — not an official AICTE timeline",
+    },
+    {
+      category: "Faculty salary",
+      target_days: 21,
+      description: "Illustrative demo policy — not an official AICTE timeline",
+    },
+    {
+      category: "Admission",
+      target_days: 21,
+      description: "Illustrative demo policy — not an official AICTE timeline",
+    },
+    {
+      category: "Infrastructure",
+      target_days: 30,
+      description: "Illustrative demo policy — not an official AICTE timeline",
+    },
+    {
+      category: "Governance",
+      target_days: 21,
+      description: "Illustrative demo policy — not an official AICTE timeline",
+    },
   ],
 };
 
@@ -76,7 +132,8 @@ export let mockCases: any[] = [
     bureau: "PGRC",
     category: "Fees",
     title: "Unauthorized semester examination fees",
-    description: "Students report collection of excess examination fees during the 2026 autumn semester.",
+    description:
+      "Students report collection of excess examination fees during the 2026 autumn semester.",
     institution_id: "north-valley",
     institution_name: "North Valley Institute of Technology",
     region: "Northern",
@@ -90,8 +147,20 @@ export let mockCases: any[] = [
     version: 2,
     restricted: false,
     history: [
-      { id: "e-1", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-10-20T10:00:00Z", user_name: "Ananya Rao" },
-      { id: "e-2", action: "Pending → Under Process", remarks: "Synthetic demonstration workflow started", created_at: "2026-10-21T11:00:00Z", user_name: "Priya Nair" },
+      {
+        id: "e-1",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-10-20T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
+      {
+        id: "e-2",
+        action: "Pending → Under Process",
+        remarks: "Synthetic demonstration workflow started",
+        created_at: "2026-10-21T11:00:00Z",
+        user_name: "Priya Nair",
+      },
     ],
     attachments: [],
   },
@@ -102,7 +171,8 @@ export let mockCases: any[] = [
     bureau: "RB",
     category: "Fees",
     title: "Excess examination charges under scrutiny",
-    description: "Regulatory scrutiny of unauthorized examination charges collected for the 2026 autumn semester.",
+    description:
+      "Regulatory scrutiny of unauthorized examination charges collected for the 2026 autumn semester.",
     institution_id: "north-valley",
     institution_name: "North Valley Institute of Technology",
     region: "Northern",
@@ -116,8 +186,20 @@ export let mockCases: any[] = [
     version: 2,
     restricted: false,
     history: [
-      { id: "e-3", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-10-21T09:00:00Z", user_name: "Ananya Rao" },
-      { id: "e-4", action: "Pending → Under Process", remarks: "Synthetic demonstration workflow started", created_at: "2026-10-22T10:00:00Z", user_name: "Arjun Mehta" },
+      {
+        id: "e-3",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-10-21T09:00:00Z",
+        user_name: "Ananya Rao",
+      },
+      {
+        id: "e-4",
+        action: "Pending → Under Process",
+        remarks: "Synthetic demonstration workflow started",
+        created_at: "2026-10-22T10:00:00Z",
+        user_name: "Arjun Mehta",
+      },
     ],
     attachments: [],
   },
@@ -128,7 +210,8 @@ export let mockCases: any[] = [
     bureau: "RO",
     category: "Faculty salary",
     title: "Faculty salary payments delayed",
-    description: "Faculty report unpaid monthly salaries and seek release of their employment dues.",
+    description:
+      "Faculty report unpaid monthly salaries and seek release of their employment dues.",
     institution_id: "north-valley",
     institution_name: "North Valley Institute of Technology",
     region: "Northern",
@@ -142,7 +225,13 @@ export let mockCases: any[] = [
     version: 1,
     restricted: false,
     history: [
-      { id: "e-5", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-10-15T08:00:00Z", user_name: "Ananya Rao" },
+      {
+        id: "e-5",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-10-15T08:00:00Z",
+        user_name: "Ananya Rao",
+      },
     ],
     attachments: [],
   },
@@ -153,7 +242,8 @@ export let mockCases: any[] = [
     bureau: "PGRC",
     category: "Admission",
     title: "Admission refund remains pending",
-    description: "A student seeks the return of admission fees following withdrawal before the course started.",
+    description:
+      "A student seeks the return of admission fees following withdrawal before the course started.",
     institution_id: "coastal",
     institution_name: "Coastal College of Engineering",
     region: "Southern",
@@ -167,8 +257,20 @@ export let mockCases: any[] = [
     version: 2,
     restricted: false,
     history: [
-      { id: "e-6", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-09-18T10:00:00Z", user_name: "Ananya Rao" },
-      { id: "e-7", action: "Pending → Escalated", remarks: "Exceeded initial SLA deadline", created_at: "2026-10-10T11:00:00Z", user_name: "Ananya Rao" },
+      {
+        id: "e-6",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-09-18T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
+      {
+        id: "e-7",
+        action: "Pending → Escalated",
+        remarks: "Exceeded initial SLA deadline",
+        created_at: "2026-10-10T11:00:00Z",
+        user_name: "Ananya Rao",
+      },
     ],
     attachments: [],
   },
@@ -179,7 +281,8 @@ export let mockCases: any[] = [
     bureau: "RB",
     category: "Infrastructure",
     title: "Laboratory equipment safety concerns",
-    description: "Inspection requested for laboratory equipment safety and maintenance at the institution.",
+    description:
+      "Inspection requested for laboratory equipment safety and maintenance at the institution.",
     institution_id: "coastal",
     institution_name: "Coastal College of Engineering",
     region: "Southern",
@@ -193,8 +296,20 @@ export let mockCases: any[] = [
     version: 2,
     restricted: false,
     history: [
-      { id: "e-8", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-09-16T12:00:00Z", user_name: "Ananya Rao" },
-      { id: "e-9", action: "Pending → Under Process", remarks: "Inspection scheduled", created_at: "2026-09-20T14:00:00Z", user_name: "Arjun Mehta" },
+      {
+        id: "e-8",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-09-16T12:00:00Z",
+        user_name: "Ananya Rao",
+      },
+      {
+        id: "e-9",
+        action: "Pending → Under Process",
+        remarks: "Inspection scheduled",
+        created_at: "2026-09-20T14:00:00Z",
+        user_name: "Arjun Mehta",
+      },
     ],
     attachments: [],
   },
@@ -205,7 +320,8 @@ export let mockCases: any[] = [
     bureau: "RB",
     category: "Governance",
     title: "Required disclosure documents missing",
-    description: "The institution has not published mandatory governance disclosures for the academic year.",
+    description:
+      "The institution has not published mandatory governance disclosures for the academic year.",
     institution_id: "deccan",
     institution_name: "Deccan Technical Institute",
     region: "Western",
@@ -219,7 +335,13 @@ export let mockCases: any[] = [
     version: 1,
     restricted: false,
     history: [
-      { id: "e-10", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-09-30T10:00:00Z", user_name: "Ananya Rao" },
+      {
+        id: "e-10",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-09-30T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
     ],
     attachments: [],
   },
@@ -230,7 +352,8 @@ export let mockCases: any[] = [
     bureau: "PGRC",
     category: "Fees",
     title: "Unapproved development fee collection",
-    description: "Students allege an unapproved development fee collected in the 2026 autumn semester.",
+    description:
+      "Students allege an unapproved development fee collected in the 2026 autumn semester.",
     institution_id: "deccan",
     institution_name: "Deccan Technical Institute",
     region: "Western",
@@ -244,7 +367,13 @@ export let mockCases: any[] = [
     version: 1,
     restricted: false,
     history: [
-      { id: "e-11", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-10-16T10:00:00Z", user_name: "Ananya Rao" },
+      {
+        id: "e-11",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-10-16T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
     ],
     attachments: [],
   },
@@ -255,7 +384,8 @@ export let mockCases: any[] = [
     bureau: "RO",
     category: "Infrastructure",
     title: "Accessible campus routes requested",
-    description: "Stakeholders request review of wheelchair access routes across academic buildings.",
+    description:
+      "Stakeholders request review of wheelchair access routes across academic buildings.",
     institution_id: "eastern",
     institution_name: "Eastern School of Technology",
     region: "Eastern",
@@ -269,8 +399,20 @@ export let mockCases: any[] = [
     version: 2,
     restricted: false,
     history: [
-      { id: "e-12", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-10-18T10:00:00Z", user_name: "Ananya Rao" },
-      { id: "e-13", action: "Pending → Under Process", remarks: "Site audit assigned", created_at: "2026-10-19T11:00:00Z", user_name: "Kabir Sen" },
+      {
+        id: "e-12",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-10-18T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
+      {
+        id: "e-13",
+        action: "Pending → Under Process",
+        remarks: "Site audit assigned",
+        created_at: "2026-10-19T11:00:00Z",
+        user_name: "Kabir Sen",
+      },
     ],
     attachments: [],
   },
@@ -281,7 +423,8 @@ export let mockCases: any[] = [
     bureau: "PGRC",
     category: "Admission",
     title: "Admission document return delayed",
-    description: "Student original admission documents were withheld after a withdrawal request.",
+    description:
+      "Student original admission documents were withheld after a withdrawal request.",
     institution_id: "eastern",
     institution_name: "Eastern School of Technology",
     region: "Eastern",
@@ -295,9 +438,27 @@ export let mockCases: any[] = [
     version: 3,
     restricted: false,
     history: [
-      { id: "e-14", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-10-06T10:00:00Z", user_name: "Ananya Rao" },
-      { id: "e-15", action: "Pending → Under Process", remarks: "Notice sent to institute", created_at: "2026-10-08T11:00:00Z", user_name: "Priya Nair" },
-      { id: "e-16", action: "Under Process → Disposed", remarks: "Documents returned and receipt acknowledged", created_at: "2026-10-20T15:00:00Z", user_name: "Priya Nair" },
+      {
+        id: "e-14",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-10-06T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
+      {
+        id: "e-15",
+        action: "Pending → Under Process",
+        remarks: "Notice sent to institute",
+        created_at: "2026-10-08T11:00:00Z",
+        user_name: "Priya Nair",
+      },
+      {
+        id: "e-16",
+        action: "Under Process → Disposed",
+        remarks: "Documents returned and receipt acknowledged",
+        created_at: "2026-10-20T15:00:00Z",
+        user_name: "Priya Nair",
+      },
     ],
     attachments: [],
   },
@@ -308,7 +469,8 @@ export let mockCases: any[] = [
     bureau: "RB",
     category: "Infrastructure",
     title: "Workshop inspection completed",
-    description: "A workshop safety concern has been investigated and corrective evidence verified.",
+    description:
+      "A workshop safety concern has been investigated and corrective evidence verified.",
     institution_id: "north-valley-south",
     institution_name: "North Valley Institute of Technology, South",
     region: "Southern",
@@ -322,9 +484,27 @@ export let mockCases: any[] = [
     version: 3,
     restricted: false,
     history: [
-      { id: "e-17", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-09-09T10:00:00Z", user_name: "Ananya Rao" },
-      { id: "e-18", action: "Pending → Under Process", remarks: "Investigation ordered", created_at: "2026-09-12T11:00:00Z", user_name: "Arjun Mehta" },
-      { id: "e-19", action: "Under Process → Disposed", remarks: "Synthetic evidence reviewed and case disposed", created_at: "2026-10-15T16:00:00Z", user_name: "Arjun Mehta" },
+      {
+        id: "e-17",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-09-09T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
+      {
+        id: "e-18",
+        action: "Pending → Under Process",
+        remarks: "Investigation ordered",
+        created_at: "2026-09-12T11:00:00Z",
+        user_name: "Arjun Mehta",
+      },
+      {
+        id: "e-19",
+        action: "Under Process → Disposed",
+        remarks: "Synthetic evidence reviewed and case disposed",
+        created_at: "2026-10-15T16:00:00Z",
+        user_name: "Arjun Mehta",
+      },
     ],
     attachments: [],
   },
@@ -335,7 +515,8 @@ export let mockCases: any[] = [
     bureau: "PGRC",
     category: "Faculty salary",
     title: "Employment dues awaiting response",
-    description: "Former faculty seek payment of final salary and pending employment dues.",
+    description:
+      "Former faculty seek payment of final salary and pending employment dues.",
     institution_id: "himalayan",
     institution_name: "Himalayan Polytechnic",
     region: "Northern",
@@ -349,8 +530,20 @@ export let mockCases: any[] = [
     version: 2,
     restricted: false,
     history: [
-      { id: "e-20", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-09-26T10:00:00Z", user_name: "Ananya Rao" },
-      { id: "e-21", action: "Pending → Escalated", remarks: "Reminder sent, pending formal response", created_at: "2026-10-18T12:00:00Z", user_name: "Priya Nair" },
+      {
+        id: "e-20",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-09-26T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
+      {
+        id: "e-21",
+        action: "Pending → Escalated",
+        remarks: "Reminder sent, pending formal response",
+        created_at: "2026-10-18T12:00:00Z",
+        user_name: "Priya Nair",
+      },
     ],
     attachments: [],
   },
@@ -361,7 +554,8 @@ export let mockCases: any[] = [
     bureau: "RO",
     category: "Governance",
     title: "Institution response under assessment",
-    description: "The regional office is reviewing an institutional response to a governance query.",
+    description:
+      "The regional office is reviewing an institutional response to a governance query.",
     institution_id: "himalayan",
     institution_name: "Himalayan Polytechnic",
     region: "Northern",
@@ -375,8 +569,20 @@ export let mockCases: any[] = [
     version: 2,
     restricted: false,
     history: [
-      { id: "e-22", action: "Created → Pending", remarks: "Registered via seed", created_at: "2026-10-12T10:00:00Z", user_name: "Ananya Rao" },
-      { id: "e-23", action: "Pending → Under Process", remarks: "Evaluating submitted affidavits", created_at: "2026-10-14T11:00:00Z", user_name: "Kabir Sen" },
+      {
+        id: "e-22",
+        action: "Created → Pending",
+        remarks: "Registered via seed",
+        created_at: "2026-10-12T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
+      {
+        id: "e-23",
+        action: "Pending → Under Process",
+        remarks: "Evaluating submitted affidavits",
+        created_at: "2026-10-14T11:00:00Z",
+        user_name: "Kabir Sen",
+      },
     ],
     attachments: [],
   },
@@ -387,7 +593,8 @@ export let mockCases: any[] = [
     bureau: "RB",
     category: "Fees",
     title: "Institution identity needs verification",
-    description: "A fee complaint arrived with an incomplete institutional name and no permanent identifier.",
+    description:
+      "A fee complaint arrived with an incomplete institutional name and no permanent identifier.",
     institution_id: "",
     institution_name: "Northern Vally Technology Campus",
     region: "Northern",
@@ -401,7 +608,13 @@ export let mockCases: any[] = [
     version: 1,
     restricted: false,
     history: [
-      { id: "e-24", action: "Created → Pending", remarks: "Identity pending resolution", created_at: "2026-10-24T10:00:00Z", user_name: "Ananya Rao" },
+      {
+        id: "e-24",
+        action: "Created → Pending",
+        remarks: "Identity pending resolution",
+        created_at: "2026-10-24T10:00:00Z",
+        user_name: "Ananya Rao",
+      },
     ],
     attachments: [],
   },
@@ -449,19 +662,20 @@ export const mockOverlaps = [
   },
 ];
 
-
 export const mockNotifications = [
   {
     id: "notif-1",
     title: "Cross-bureau overlap identified",
-    message: "Cases c-101 (PGRC) and c-102 (RB) share evidence circular EXAM-CIRCULAR-26 at North Valley Institute of Technology.",
+    message:
+      "Cases c-101 (PGRC) and c-102 (RB) share evidence circular EXAM-CIRCULAR-26 at North Valley Institute of Technology.",
     read_at: null,
     created_at: "2026-10-21T10:05:00Z",
   },
   {
     id: "notif-2",
     title: "Identity resolution pending",
-    message: "Case c-113 registered with unverified institute 'Northern Vally Technology Campus'.",
+    message:
+      "Case c-113 registered with unverified institute 'Northern Vally Technology Campus'.",
     read_at: null,
     created_at: "2026-10-24T09:30:00Z",
   },
@@ -477,191 +691,3 @@ export const mockImports = [
     status: "Completed",
   },
 ];
-
-export function getMockAnalytics() {
-  const total = mockCases.length;
-  const active = mockCases.filter((c) => c.status !== "Disposed").length;
-  const disposed = total - active;
-  const overdue = 2;
-  const dueSoon = 3;
-
-  const group = (key: string) => {
-    const map = new Map<string, { name: string; total: number; pending: number; disposed: number }>();
-    for (const c of mockCases) {
-      const name = c[key] || "Unresolved";
-      if (!map.has(name)) {
-        map.set(name, { name, total: 0, pending: 0, disposed: 0 });
-      }
-      const entry = map.get(name)!;
-      entry.total++;
-      if (c.status === "Disposed") entry.disposed++;
-      else entry.pending++;
-    }
-    return Array.from(map.values());
-  };
-
-  return {
-    total,
-    active,
-    disposed,
-    overdue,
-    dueSoon,
-    asOf: new Date().toISOString(),
-    statuses: group("status"),
-    bureaus: group("bureau"),
-    regions: group("region"),
-    institutions: group("institution_name"),
-    ageing: [
-      { name: "0-7 days", total: 4, pending: 4, disposed: 0 },
-      { name: "8-14 days", total: 3, pending: 3, disposed: 0 },
-      { name: "15-30 days", total: 4, pending: 3, disposed: 1 },
-      { name: "30+ days", total: 2, pending: 1, disposed: 1 },
-    ],
-    monthly: [
-      { name: "2026-09", total: 4, disposed: 1 },
-      { name: "2026-10", total: 9, disposed: 1 },
-    ],
-    monthlyPerformance: [
-      { name: "2026-09", total: 4, disposalActions: 0 },
-      { name: "2026-10", total: 9, disposalActions: 2 },
-    ],
-    quarterlyPerformance: [
-      { name: "2026 Q3", total: 4, disposalActions: 0 },
-      { name: "2026 Q4", total: 9, disposalActions: 2 },
-    ],
-  };
-}
-
-let currentMockUser: any = null;
-
-export function handleMockApi(path: string, options: RequestInit = {}): any {
-  const method = (options.method || "GET").toUpperCase();
-  const urlObj = new URL(path, "http://localhost");
-  const pathname = urlObj.pathname.replace(/^\/api/, "");
-
-  if (pathname === "/me") {
-    return { user: currentMockUser, demo: true };
-  }
-
-  if (pathname === "/login") {
-    currentMockUser = {
-      id: "admin",
-      name: "Ananya Rao",
-      email: "admin@demo.local",
-      role: "admin",
-      bureau: null,
-    };
-    return { status: "ok", user: currentMockUser };
-  }
-
-  if (pathname === "/logout") {
-    currentMockUser = null;
-    return { status: "ok" };
-  }
-
-  if (pathname === "/meta") {
-    return mockMeta;
-  }
-
-  if (pathname === "/analytics") {
-    return getMockAnalytics();
-  }
-
-  if (pathname === "/cases") {
-    if (method === "GET") {
-      const q = urlObj.searchParams.get("q")?.toLowerCase() || "";
-      const bureau = urlObj.searchParams.get("bureau") || "";
-      const status = urlObj.searchParams.get("status") || "";
-      let filtered = mockCases;
-      if (q) {
-        filtered = filtered.filter(
-          (c) =>
-            c.title.toLowerCase().includes(q) ||
-            c.institution_name.toLowerCase().includes(q) ||
-            c.source_id.toLowerCase().includes(q),
-        );
-      }
-      if (bureau) filtered = filtered.filter((c) => c.bureau === bureau);
-      if (status) filtered = filtered.filter((c) => c.status === status);
-      return { items: filtered, total: filtered.length };
-    }
-    if (method === "POST" && options.body) {
-      const body = JSON.parse(options.body as string);
-      const newCase = {
-        id: `c-${Date.now().toString().slice(-4)}`,
-        source_id: `DEMO-${Date.now().toString().slice(-3)}`,
-        source: "Manual entry",
-        bureau: body.bureau || "PGRC",
-        category: body.category || "Fees",
-        title: body.title,
-        description: body.description,
-        institution_id: body.institutionId || "north-valley",
-        institution_name: body.institutionName || "North Valley Institute of Technology",
-        region: body.region || "Northern",
-        status: "Pending",
-        period: body.period || "2026 autumn",
-        evidence_ref: body.evidenceRef || "",
-        received_at: new Date().toISOString().slice(0, 10),
-        due_at: new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10),
-        officer_id: "admin",
-        officer_name: "Ananya Rao",
-        version: 1,
-        restricted: false,
-        history: [
-          { id: `e-${Date.now()}`, action: "Created → Pending", remarks: "Registered in demo mode", created_at: new Date().toISOString(), user_name: "Ananya Rao" }
-        ],
-        attachments: [],
-      };
-      mockCases.unshift(newCase);
-      return newCase;
-    }
-  }
-
-  if (pathname.startsWith("/cases/")) {
-    const id = pathname.replace("/cases/", "");
-    const found = mockCases.find((c) => c.id === id);
-    if (!found) throw new Error("Case not found");
-    if (method === "PATCH" && options.body) {
-      const body = JSON.parse(options.body as string);
-      if (body.status) found.status = body.status;
-      if (body.officerId) found.officer_id = body.officerId;
-      found.version = (found.version || 1) + 1;
-      found.history.push({
-        id: `e-${Date.now()}`,
-        action: `Updated → ${found.status}`,
-        remarks: body.remarks || "Updated in demo mode",
-        created_at: new Date().toISOString(),
-        user_name: "Ananya Rao",
-      });
-      return found;
-    }
-    return found;
-  }
-
-  if (pathname === "/institutions") {
-    return mockInstitutions;
-  }
-
-  if (pathname === "/overlaps") {
-    return mockOverlaps;
-  }
-
-  if (pathname.startsWith("/overlaps/") && pathname.endsWith("/review")) {
-    const id = pathname.replace("/overlaps/", "").replace("/review", "");
-    const ov = mockOverlaps.find((o) => o.id === id);
-    if (ov) {
-      ov.decision = "Review recorded in demo mode";
-    }
-    return { status: "ok" };
-  }
-
-  if (pathname === "/notifications") {
-    return mockNotifications;
-  }
-
-  if (pathname === "/imports") {
-    return mockImports;
-  }
-
-  return { status: "ok" };
-}

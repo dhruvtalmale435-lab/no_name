@@ -25,6 +25,8 @@ Executed authorization/security assertions are recorded in TEST_REPORT.md. Produ
 
 ## Limits before any operational pilot
 
+Judge access: the fixed `LocalDemo-26264!` credential is intentionally public for synthetic accounts. Static Pages simulates access only and must never contain real complaint data. The server's public demo-access endpoint is disabled in production, when DEMO_MODE is off, and when a custom seed password is used. Browser reset affects only the demo session store. The real API no longer silently falls back to demo data on network failures.
+
 - No SSO/MFA, account administration/password reset, central identity provisioning or password rotation.
 - Rate limits are process-local and IP-based, unsuitable alone for distributed deployments; reverse-proxy trust is limited to loopback.
 - No malware scanning/CDR on PDF or images. Signature checking does not certify file safety. All attachments are downloads; use synthetic evidence for demonstrations.

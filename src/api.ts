@@ -1,25 +1,14 @@
-import { handleMockApi } from "./mockData";
-
-export class ApiError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-  ) {
-    super(message);
-  }
-}
-
-let isStaticHost =
-  typeof window !== "undefined" &&
-  (window.location.hostname.includes("github.io") ||
-    window.location.protocol === "file:");
+import { handleDemoApi } from "./demoApi";
+import { isBrowserPreview } from "./demoAccess";
+import { ApiError } from "./apiError";
+export { ApiError } from "./apiError";
 
 export async function api<T = any>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  if (isStaticHost) {
-    return handleMockApi(path, options);
+  if (isBrowserPreview()) {
+    return handleDemoApi(path, options);
   }
 
   try {
@@ -38,25 +27,16 @@ export async function api<T = any>(
       return data;
     }
 
-    if (!response.ok) {
-      if (typeof window !== "undefined") {
-        isStaticHost = true;
-        return handleMockApi(path, options);
-      }
-      throw new ApiError(
-        `Request failed with status ${response.status}`,
-        response.status,
-      );
-    }
-
-    return (await response.text()) as unknown as T;
+    throw new ApiError(
+      "The server returned an unexpected response. Retry when the API is available.",
+      response.status || 503,
+    );
   } catch (err) {
     if (err instanceof ApiError) throw err;
-    if (typeof window !== "undefined") {
-      isStaticHost = true;
-      return handleMockApi(path, options);
-    }
-    throw err;
+    throw new ApiError(
+      "Cannot connect to the server. Your saved server records have not been replaced by demo data.",
+      503,
+    );
   }
 }
 

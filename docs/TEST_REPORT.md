@@ -5,23 +5,23 @@ Date: 24 October 2026. Host: Windows, Node 24.14.0, npm 11.9.0, Microsoft Edge. 
 | Command | Observed result |
 |---|---|
 | `npm install` | Initial sandbox DNS ENOTFOUND; retried with network permission; dependencies installed, zero vulnerabilities reported |
-| `npm test` | **29 passed, 0 failed** after fixing the seed's nested transaction failure and permitting local loopback test traffic |
+| `npm test` | **30 passed, 0 failed**, including demo-access safeguards for custom passwords and production |
 | `npm run build` | TypeScript noEmit and Vite production compilation passed; final verification rerun after UI focus correction |
-| `npm run test:e2e` | **7 passed**, using actual Microsoft Edge and compiled frontend against temporary SQLite-backed API; includes the visual readability regression |
+| `npm run test:e2e` | **13 passed** in actual Edge: 8 server-backed journeys and 5 explicit GitHub-style browser-demo journeys |
 | `npm run test:production` | Passed: production server startup, real DB health, built HTML/JS assets, CSP, Secure/HttpOnly session cookie |
 | `npm audit --omit=dev` | **0 vulnerabilities** reported |
 | `npm run seed` | Created **13** real persisted synthetic cases; repeatability also verified by integration test |
 | `GET http://127.0.0.1:3000/api/health` | `{status:'ok', database:'sqlite', demo:true}` |
 
-## 29 domain / API tests
+## 30 domain / API tests
 
-22 integration tests cover public health/protected routes, credentials/session flags, seed repeatability/migration, create/read/filter/count consistency, invalid/future/duplicate rejection, role/bureau denials, restricted list/detail/export/count exclusion, status/assignment/transfer/history, concurrent stale update, related/independent review and task completion, institution verification, atomic/idempotent import, document permission/type checks, notification read state, policy scope/deadline retention, cross-origin rejection/SQL payload, append-only audit, logout/expiry, reopening the persistent database, CSV/source-bureau validation, binary signature/download policy, and monthly/quarterly event reconciliation.
+23 integration tests cover public health/protected routes, credentials/session flags, seed repeatability/migration, create/read/filter/count consistency, invalid/future/duplicate rejection, role/bureau denials, restricted list/detail/export/count exclusion, status/assignment/transfer/history, concurrent stale update, related/independent review and task completion, institution verification, atomic/idempotent import, document permission/type checks, notification read state, policy scope/deadline retention, cross-origin rejection/SQL payload, append-only audit, logout/expiry, reopening the persistent database, CSV/source-bureau validation, binary signature/download policy, and monthly/quarterly event reconciliation.
 
 Four domain tests cover ID/alias/conflict/unresolved identity, issue versus institution-level classification, deadline/month/leap-year/IST boundary arithmetic, salted password verification and permission helpers.
 
 Three CSV/reset tests cover BOM, quoted comma/quote/newline handling, boolean parsing, malformed CSV rejection and resolved demo-reset path boundaries.
 
-## Seven actual browser journeys
+## Eight server-backed browser journeys
 
 1. Login, database-derived dashboard reconciliation, reload and logout; no page errors recorded in this journey.
 2. UI registration using verified alias, registry search, refresh persistence, officer assignment, status history and institution-profile visibility.
@@ -53,5 +53,13 @@ Browser outputs: `playwright-report/index.html` and `test-results/` (ignored gen
 - Missing CSV and quarterly performance → implemented and verified instead of leaving as a claimed future feature.
 
 ## Verification boundaries
+
+### Judge-demo repair
+
+The reported Institutions crash was caused by incompatible browser fixture contracts: aliases, bureau lists, counts, permanent IDs, timeline events and document arrays did not match server responses. A dedicated browser-demo adapter now returns the same interface shapes, derives counts/analytics from current synthetic records, supports institution/case filters and pagination, records review/task actions, and stores temporary changes in the tab's sessionStorage. The old partial handler and hardcoded analytics were removed.
+
+Five actual browser-demo tests verified prefilled credentials and visible backup password, guided entry, all navigation screens, institution profiles and their scoped histories, registration/status changes across reloads, coordination decisions/tasks/audit, CSV download, reset/logout, CSV import, evidence download and manual identity verification. All passed without the reported render failure. The server suite additionally verifies that network failure does not silently switch to fake data. Public demo access is disabled for custom seed passwords and production.
+
+Screenshots: `docs/screenshots/judge-demo-login.png`, `judge-demo-guide.png`, `judge-demo-institutions.png`. Browser-demo access is simulated and public; these tests do not certify production authentication or storage. The existing real API retains its original authorization and SQLite behavior.
 
 Docker execution, remote hosting, PostgreSQL, authorized government APIs, SSO, malware inspection, backup recovery, large-volume load, external notifications and independent labeled matching evaluation were **not** run. Unit examples are not an accuracy benchmark. No model accuracy/performance or regulatory compliance claim is made. Node's SQLite experimental warning is expected.

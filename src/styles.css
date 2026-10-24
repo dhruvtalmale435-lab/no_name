@@ -1759,6 +1759,150 @@ body:has(.overlay) .main-shell main > .success {
   margin-bottom: 24px;
   overflow: hidden;
 }
+.judge-access {
+  margin-top: 22px;
+  padding: 18px;
+  border: 1px solid #b9dbd3;
+  border-radius: 8px;
+  background: #f0f8f6;
+}
+.judge-access-heading {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: #0c625d;
+}
+.judge-access h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.judge-access p {
+  margin-top: 9px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #385e55;
+}
+.judge-access dl {
+  margin: 15px 0;
+  display: grid;
+  gap: 12px;
+}
+.judge-access dt {
+  font-size: 12px;
+  color: #526275;
+  margin-bottom: 3px;
+}
+.judge-access dd {
+  margin: 0;
+  color: #172e47;
+}
+.judge-access code {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.judge-access .secondary {
+  width: 100%;
+}
+.judge-access > small {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #385e55;
+}
+.judge-demo-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #eaf4f3;
+  border: 1px solid #c4dfda;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 23px;
+  color: #0c625d;
+}
+.judge-demo-strip > svg {
+  flex-shrink: 0;
+}
+.judge-demo-strip > div {
+  flex: 1;
+}
+.judge-demo-strip strong {
+  color: #172e47;
+  font-size: 15px;
+}
+.judge-demo-strip p {
+  color: #385e55;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-top: 4px;
+}
+.guided-demo ol {
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
+}
+.guided-demo li {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid #dbe3ec;
+}
+.demo-step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: #0c625d;
+  background: #e6f3f1;
+  font-weight: 700;
+}
+.guided-demo li > div {
+  flex: 1;
+}
+.guided-demo li h3 {
+  margin: 0 0 7px;
+  font-size: 16px;
+}
+.guided-demo li p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #526275;
+}
+@media (max-width: 900px) {
+  .guided-demo li {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .guided-demo li .secondary {
+    margin-left: 54px;
+  }
+}
+@media (max-width: 600px) {
+  .judge-demo-strip {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 16px;
+  }
+  .judge-demo-strip > div {
+    flex-basis: calc(100% - 50px);
+  }
+  .judge-demo-strip .secondary {
+    width: 100%;
+  }
+  .guided-demo li > div {
+    min-width: 0;
+  }
+  .guided-demo li .secondary {
+    margin-left: 0;
+    width: 100%;
+  }
+  .judge-access {
+    padding: 14px;
+  }
+}
 .workflow-guide-heading {
   padding: 20px 23px;
   display: flex;

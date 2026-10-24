@@ -210,10 +210,12 @@ test("Register through UI, alias matching, persistent search result, assign, upd
     })
     .click();
   await expect(
-    page.getByRole("dialog", { name: "Institution profile" }).getByRole("button", {
-      name: "Browser verified examination fees",
-      exact: true,
-    }),
+    page
+      .getByRole("dialog", { name: "Institution profile" })
+      .getByRole("button", {
+        name: "Browser verified examination fees",
+        exact: true,
+      }),
   ).toBeVisible();
 });
 test("Explainable overlap review persists in both source timelines; independent issue visible", async ({
@@ -314,6 +316,27 @@ test("Failed API request presents recovery feedback and preserves usable navigat
     .getByRole("button", { name: "Case registry", exact: true })
     .click();
   await expect(page.getByRole("heading", { name: "All cases" })).toBeVisible();
+});
+test("Server network failure never silently switches to the browser demo", async ({
+  page,
+}) => {
+  await login(page);
+  await page.route("**/api/analytics*", (route) =>
+    route.abort("connectionfailed"),
+  );
+  await page.getByRole("button", { name: "Refresh data" }).click();
+  await expect(page.getByRole("alert")).toContainText(
+    "Cannot connect to the server",
+  );
+  await expect(page.locator(".demo-banner")).toContainText(
+    "Real database and workflows",
+  );
+  await page.unroute("**/api/analytics*");
+  await page.getByRole("button", { name: "Dismiss error" }).click();
+  await page.getByRole("button", { name: "Refresh data" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Coordination overview" }),
+  ).toBeVisible();
 });
 test("CSV import, evidence attachment, invalid-form recovery and multi-user visibility", async ({
   page,

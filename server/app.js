@@ -60,6 +60,22 @@ export function createApp(db, { production = false, demo = false } = {}) {
     db.prepare("SELECT 1").get();
     res.json({ status: "ok", database: "sqlite", demo });
   });
+  app.get("/api/demo-access", (req, res) => {
+    // Only the deliberately published synthetic credential may be advertised.
+    // Custom seed passwords and production authentication are never exposed.
+    const enabled =
+      demo && !production && process.env.DEMO_PASSWORD === "LocalDemo-26264!";
+    res.json(
+      enabled
+        ? {
+            enabled: true,
+            email: "admin@demo.local",
+            password: "LocalDemo-26264!",
+            browserOnly: false,
+          }
+        : { enabled: false },
+    );
+  });
   app.post("/api/login", (req, res) => {
     const { email, password } = z
       .object({
@@ -649,8 +665,7 @@ export function createApp(db, { production = false, demo = false } = {}) {
     res
       .set({
         "Content-Type": "text/csv; charset=utf-8",
-        "Content-Disposition":
-          'attachment; filename="bureausetu-cases.csv"',
+        "Content-Disposition": 'attachment; filename="bureausetu-cases.csv"',
       })
       .send(
         "\uFEFF" +

@@ -9,7 +9,7 @@ Verdict: **READY WITH LIMITATIONS for a local SIH demonstration using synthetic 
 - Versioned schema initialized, real seed persisted, re-opening connection verified.
 - Authentication, backend role/bureau/object permissions, case registration, status/assignment/transfer/history, identity resolution, related-case detection, officer review and coordination tasks verified.
 - Registry filters, institution history, scoped dashboard/report counts, CSV export/import, notifications and supporting evidence verified.
-- 29 domain/API tests, 7 actual Edge browser journeys (including visual readability), TypeScript/production build, production smoke and zero reported production dependency vulnerabilities. The visual refresh reran the build and browser suite; backend logic was unchanged.
+- 30 domain/API tests, 13 actual Edge browser journeys (8 server-backed, 5 browser-demo), TypeScript/production build and production smoke passed. The original dependency audit reported zero production vulnerabilities; no dependencies were added for this repair.
 - No unresolved reproduced P0/P1 defects in the tested local workflows.
 - README, requirements, architecture, database, API, tests, security and demo guide delivered.
 

@@ -2,6 +2,12 @@
 
 ## Preparation
 
+### GitHub Pages judge route
+
+Open https://dhruvtalmale435-lab.github.io/no_name/. Login details are prefilled and also visible in **Judge demo access**: `admin@demo.local` / `LocalDemo-26264!`. Use **Start guided demo** to enter the walkthrough. The **Guided demo** sidebar entry remains available after login. Institution cards show permanent ID, verified aliases, actual scoped demo counts and participating bureaus; opening a card lists its matching cases.
+
+The GitHub demo is a browser-only simulation with synthetic records. Its login is simulated, changes are scoped to the current tab's session storage, and **Reset browser demo** restores the fixtures. Do not present it as live AICTE data or a server-backed deployment. Reload keeps the same demo session. If storage has been corrupted, the data layer reconstructs valid fixtures; the error screen also offers a browser-demo-only reset.
+
 Run `npm ci`, configure `.env`, `npm run seed`, `npm run dev`. Open http://127.0.0.1:3000. Use `admin@demo.local` and the password you configured in the ignored `.env` file. Other roles: `rb@demo.local`, `pgrc@demo.local`, `ro@demo.local`, `viewer@demo.local`, same local demo password.
 
 All institutions, officers and complaints are synthetic. There is no live government connection. State that explicitly at the beginning. Dates are IST. Timeline deadlines are illustrative calendar-day rules. Internal views poll every 15 seconds, and successful local actions refresh the dashboard.

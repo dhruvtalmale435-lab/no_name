@@ -5,6 +5,7 @@ All endpoints use `/api`. Health and login are public; all others require HttpOn
 | Method / path | Contract |
 |---|---|
 | GET /health | Real DB readiness; status/database/demo |
+| GET /demo-access | Public synthetic login convenience only: `{enabled,email?,password?}`. Enabled solely for non-production DEMO_MODE using the intentionally published demo password; custom/production passwords are never returned. |
 | POST /login | `{email,password}` → Set-Cookie, `{ok:true}` |
 | POST /logout | Invalidate server session and clear cookie |
 | GET /me | `{user:{id,name,email,role,bureau},demo}` |
@@ -54,5 +55,7 @@ Use a receipt date no later than current IST date and a unique source reference.
 CSV uses these same camelCase keys as headers. Quote fields containing commas/newlines and escape quotes by doubling them. `restricted` must be `true`, `false` or blank; blank officer is treated as unassigned. Example file: `examples/rb-import.csv`. Source imports skip existing references and retain original case/local review state rather than silently updating.
 
 This intake adapter starts imported cases at Pending and calculates the illustrative policy deadline. It does not migrate legacy source dispositions/history; establish subsequent state through an authorized, audited workflow. Full historical/status synchronization requires an authorized versioned adapter.
+
+The GitHub Pages browser demo adapts these contracts using synthetic per-tab state. Its `/demo/reset` operation is implemented only in the browser adapter and is not a production/server reset endpoint. `/reports/export` and `/documents/:id` become browser-generated downloads there; normal server endpoints remain authorized downloads. Server network/API errors never automatically activate the browser adapter.
 
 Decisions: `Related — coordination required`, `Confirmed duplicate issue`, `Same institution — independent issues`, `Not related`, `Needs additional information`. First two require a participating officer, deadline no earlier than today and next action. Reviews do not mutate the original case disposition. Re-review uses current relationship version, with previous decisions preserved in case events.

@@ -25,12 +25,17 @@ import {
   RefreshCw,
   Users,
   Link2,
+  PlayCircle,
 } from "lucide-react";
 import { api, send, ApiError } from "./api";
+import {
+  DEMO_EMAIL,
+  DEMO_PASSWORD,
+  DEMO_STORAGE_KEY,
+  isBrowserPreview,
+} from "./demoAccess";
 import "./styles.css";
-const browserPreview =
-  window.location.hostname.endsWith(".github.io") ||
-  window.location.protocol === "file:";
+const browserPreview = isBrowserPreview();
 type User = {
   id: string;
   name: string;
@@ -181,7 +186,14 @@ function App() {
     [review, setReview] = useState<any>(null),
     [selectedInstitution, setSelectedInstitution] = useState<any>(null);
   const [loginEmail, setLoginEmail] = useState("admin@demo.local"),
-    [loginPassword, setLoginPassword] = useState("");
+    [loginPassword, setLoginPassword] = useState(
+      browserPreview ? DEMO_PASSWORD : "",
+    );
+  const [demoAccess, setDemoAccess] = useState<any>(
+    browserPreview
+      ? { enabled: true, email: DEMO_EMAIL, password: DEMO_PASSWORD }
+      : { enabled: false },
+  );
   const loadGeneration = React.useRef(0);
   const query = new URLSearchParams(
     Object.entries(filters).filter(([, v]) => v),
@@ -229,6 +241,9 @@ function App() {
     }
   }, [user, filters, currentPage]);
   useEffect(() => {
+    api("/demo-access")
+      .then((access) => setDemoAccess(access))
+      .catch(() => {});
     api("/me")
       .then((r) => {
         setUser(r.user);
@@ -237,6 +252,12 @@ function App() {
       .catch(() => {})
       .finally(() => setBoot(false));
   }, []);
+  useEffect(() => {
+    if (!user && demoAccess.enabled) {
+      setLoginEmail(demoAccess.email);
+      setLoginPassword(demoAccess.password);
+    }
+  }, [user, demoAccess]);
   useEffect(() => {
     void load();
     const timer = setInterval(() => void load(), 15000);
@@ -289,6 +310,50 @@ function App() {
     setSelectedInstitution(null);
     setNotice("");
   };
+  const signIn = async (guided = false) => {
+    setBusy(true);
+    setError("");
+    try {
+      await api(
+        "/login",
+        send("POST", {
+          email: guided ? demoAccess.email : loginEmail,
+          password: guided ? demoAccess.password : loginPassword,
+        }),
+      );
+      const result = await api("/me");
+      setUser(result.user);
+      setDemo(result.demo);
+      setPage(guided ? "Guided demo" : "Overview");
+      setLoginPassword("");
+    } catch (error) {
+      setError((error as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  };
+  const downloadDemo = async (path: string) => {
+    await run(async () => {
+      const result = await api(path);
+      const blob =
+        result.csv !== undefined
+          ? new Blob([result.csv], { type: "text/csv;charset=utf-8" })
+          : new Blob(
+              [
+                Uint8Array.from(atob(result.base64), (c: string) =>
+                  c.charCodeAt(0),
+                ),
+              ],
+              { type: result.mime },
+            );
+      const url = URL.createObjectURL(blob),
+        anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = result.filename || result.name;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    }, "Demo download prepared");
+  };
   if (boot) return <div className="boot">Loading BureauSetu…</div>;
   if (!user)
     return (
@@ -332,22 +397,7 @@ function App() {
           <form
             onSubmit={async (e) => {
               e.preventDefault();
-              setBusy(true);
-              setError("");
-              try {
-                await api(
-                  "/login",
-                  send("POST", { email: loginEmail, password: loginPassword }),
-                );
-                const r = await api("/me");
-                setUser(r.user);
-                setDemo(r.demo);
-                setLoginPassword("");
-              } catch (e) {
-                setError((e as Error).message);
-              } finally {
-                setBusy(false);
-              }
+              await signIn();
             }}
           >
             <Badge tone="green">AUTHORIZED OFFICIALS</Badge>
@@ -383,6 +433,49 @@ function App() {
               {busy ? "Signing in…" : "Sign in to workspace"}
               <ArrowRight size={18} />
             </button>
+            {demoAccess.enabled && (
+              <section
+                className="judge-access"
+                aria-labelledby="judge-access-title"
+              >
+                <div className="judge-access-heading">
+                  <PlayCircle size={20} />
+                  <h3 id="judge-access-title">Judge demo access</h3>
+                </div>
+                <p>
+                  The demo login is already filled. Use these backup details if
+                  needed.
+                </p>
+                <dl>
+                  <div>
+                    <dt>Email</dt>
+                    <dd>
+                      <code>{demoAccess.email}</code>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Password</dt>
+                    <dd>
+                      <code>{demoAccess.password}</code>
+                    </dd>
+                  </div>
+                </dl>
+                <button
+                  type="button"
+                  className="secondary"
+                  disabled={busy}
+                  onClick={() => void signIn(true)}
+                >
+                  Start guided demo <ArrowRight size={16} />
+                </button>
+                <small>
+                  Public credentials for synthetic demonstration data only.{" "}
+                  {browserPreview
+                    ? "This browser demo uses tab storage, not a server database."
+                    : "This local demo uses the seeded demonstration database."}
+                </small>
+              </section>
+            )}
             <div className="login-note">
               <ShieldCheck size={20} />
               <span>
@@ -400,6 +493,7 @@ function App() {
     unread = notifications.filter((n) => !n.read_at).length;
   const nav = [
     ["Overview", LayoutDashboard],
+    ["Guided demo", PlayCircle],
     ["Case registry", FileText],
     ["Institutions", Building2],
     ["Overlap review", GitCompareArrows],
@@ -636,6 +730,8 @@ function App() {
                     {
                       Overview:
                         "A shared view of complaints. A clear path to coordinated action.",
+                      "Guided demo":
+                        "A ready-to-present walkthrough of BureauSetu, using clearly labeled synthetic records.",
                       "Case registry":
                         "Trace every case from receipt to resolution.",
                       Institutions:
@@ -654,7 +750,16 @@ function App() {
               </p>
             </div>
             <div className="heading-actions">
-              <a className="secondary" href={"/api/reports/export?" + query}>
+              <a
+                className="secondary"
+                href={"/api/reports/export?" + query}
+                onClick={(e) => {
+                  if (browserPreview) {
+                    e.preventDefault();
+                    void downloadDemo("/reports/export?" + query);
+                  }
+                }}
+              >
                 <Download size={16} /> Export cases
               </a>
               {user.role !== "viewer" && (
@@ -683,6 +788,19 @@ function App() {
           )}
           {stats && page === "Overview" && (
             <>
+              <section className="judge-demo-strip">
+                <PlayCircle size={24} />
+                <div>
+                  <strong>Present BureauSetu in three minutes</strong>
+                  <p>
+                    Follow the guided demo: institution history, related cases,
+                    officer review and reporting.
+                  </p>
+                </div>
+                <button className="secondary" onClick={() => go("Guided demo")}>
+                  Open guided demo <ArrowRight size={16} />
+                </button>
+              </section>
               <div className="stat-grid">
                 {[
                   [
@@ -899,6 +1017,108 @@ function App() {
               </div>
             </>
           )}
+          {page === "Guided demo" && (
+            <section
+              className="panel guided-demo"
+              aria-labelledby="guided-demo-heading"
+            >
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">JUDGE WALKTHROUGH</p>
+                  <h2 id="guided-demo-heading">Show the coordination story</h2>
+                </div>
+                <Badge tone="green">Synthetic demonstration</Badge>
+              </div>
+              <p className="section-copy">
+                Two bureaus receive related fee complaints about one
+                institution. Show how BureauSetu connects the institution,
+                explains the overlap and records an officer-led coordination
+                decision.
+              </p>
+              <ol>
+                {[
+                  [
+                    "1",
+                    "See the institution picture",
+                    "Open North Valley Institute of Technology. Review its Permanent ID, aliases, case history and participating bureaus.",
+                    "Institutions",
+                    "Open institutions",
+                  ],
+                  [
+                    "2",
+                    "Review the overlap",
+                    "Compare the examination-fee cases. Inspect the category, event period and evidence signals. The salary complaint remains an independent issue.",
+                    "Overlap review",
+                    "Open overlap review",
+                  ],
+                  [
+                    "3",
+                    "Record accountable action",
+                    "Review a pair with a justification, officer, deadline and next action. Open a source case to inspect the timeline, then complete the task.",
+                    "Overlap review",
+                    "Review and coordinate",
+                  ],
+                  [
+                    "4",
+                    "Show persistence and reporting",
+                    "Search a source reference, open its case details, change an allowed status, and inspect the updated dashboard and report export.",
+                    "Case registry",
+                    "Open case registry",
+                  ],
+                  [
+                    "5",
+                    "Close with the outcome",
+                    "Review scoped bureau/region reports and pending ageing. Explain how coordination avoids duplicate requests while preserving both original cases.",
+                    "Reports",
+                    "Open reports",
+                  ],
+                ].map(([number, title, text, target, label]) => (
+                  <li key={number}>
+                    <span className="demo-step-number">{number}</span>
+                    <div>
+                      <h3>{title}</h3>
+                      <p>{text}</p>
+                    </div>
+                    <button className="secondary" onClick={() => go(target)}>
+                      {label}
+                      <ArrowRight size={15} />
+                    </button>
+                  </li>
+                ))}
+              </ol>
+              <div className="info-note">
+                <ShieldCheck size={22} />
+                <div>
+                  <strong>
+                    {browserPreview
+                      ? "Browser-only demo — no live AICTE data"
+                      : "Local server demonstration"}
+                  </strong>
+                  <p>
+                    {browserPreview
+                      ? "Changes survive reloads in this browser tab. Reset restores synthetic fixtures. This is simulated access and coordination, not real officer authentication or an operational database."
+                      : "This walkthrough uses the running API and its configured database. No live government integration is configured."}
+                  </p>
+                </div>
+              </div>
+              {browserPreview && user.role !== "viewer" && (
+                <button
+                  className="secondary"
+                  disabled={busy}
+                  onClick={() =>
+                    void run(async () => {
+                      await api("/demo/reset", send("POST"));
+                      setDetail(null);
+                      setReview(null);
+                      setSelectedInstitution(null);
+                    }, "Synthetic browser demo restored")
+                  }
+                >
+                  Reset browser demo
+                </button>
+              )}
+            </section>
+          )}
           {["Case registry", "Reports"].includes(page) && (
             <div className="filter-panel">
               <div className="search">
@@ -1000,7 +1220,7 @@ function App() {
               <div className="institution-grid">
                 {institutions
                   .filter((i) =>
-                    [i.name, i.permanent_id, ...i.aliases]
+                    [i.name, i.permanent_id, ...(i.aliases || [])]
                       .join(" ")
                       .toLowerCase()
                       .includes(filters.q.toLowerCase()),
@@ -1035,7 +1255,9 @@ function App() {
                         </span>
                         <ArrowUpRight size={19} />
                       </div>
-                      <small>{i.bureaus.join(" · ") || "No cases"}</small>
+                      <small>
+                        {(i.bureaus || []).join(" · ") || "No cases"}
+                      </small>
                     </button>
                   ))}
               </div>
@@ -1580,7 +1802,7 @@ function App() {
             <div>
               <strong>Verified aliases</strong>
               <p>
-                {selectedInstitution.aliases.join(" · ") ||
+                {(selectedInstitution.aliases || []).join(" · ") ||
                   "No aliases recorded"}
               </p>
             </div>
@@ -1769,6 +1991,12 @@ function App() {
                 className="secondary"
                 key={d.id}
                 href={"/api/documents/" + d.id}
+                onClick={(e) => {
+                  if (browserPreview) {
+                    e.preventDefault();
+                    void downloadDemo("/documents/" + d.id);
+                  }
+                }}
               >
                 <FileText size={15} />
                 {d.name}
@@ -1992,8 +2220,19 @@ class ErrorBoundary extends React.Component<
     return this.state.error ? (
       <div className="boot">
         <h1>Workspace could not render</h1>
-        <p>Reload to reconnect to the saved server state.</p>
-        <button onClick={() => location.reload()}>Reload workspace</button>
+        <p>
+          {browserPreview
+            ? "Reset the synthetic browser demo to return to the prefilled login. Server records are not affected."
+            : "Reload to reconnect to the saved server state."}
+        </p>
+        <button
+          onClick={() => {
+            if (browserPreview) sessionStorage.removeItem(DEMO_STORAGE_KEY);
+            location.reload();
+          }}
+        >
+          {browserPreview ? "Reset browser demo" : "Reload workspace"}
+        </button>
       </div>
     ) : (
       this.props.children

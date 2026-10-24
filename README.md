@@ -56,6 +56,12 @@ Production serves `dist` and the API from one Express process. Set `NODE_ENV=pro
 
 The GitHub Pages workflow publishes a **BureauSetu static demonstration** using synthetic browser data from `src/mockData.ts`. It is not the authenticated server application: browser-preview records and actions are temporary, and no backend authorization or persistent database is provided by Pages. Use the local Node server or a properly configured Node/Docker host for the real API, authentication, audit history and SQLite persistence. The static-preview banner identifies this distinction.
 
+### Judge demo access
+
+The GitHub Pages login is prefilled with **admin@demo.local** / **LocalDemo-26264!**. The same details appear in the front-page **Judge demo access** card. Click **Start guided demo**, or sign in normally and select **Guided demo** from the sidebar. The walkthrough covers institution profiles, case comparison, coordination decisions, action timelines and reporting.
+
+Browser demo changes are stored in `sessionStorage` for the current tab and survive reloads. **Reset browser demo** in the guided area restores the synthetic fixtures. This is simulated access for public demo accounts, not production authentication. Local HTTP demonstrations advertise this credential only when `DEMO_MODE=true`, `NODE_ENV` is not production, and the seed password is the published demo password. Custom passwords and production credentials are never displayed. API/network failures in the server-backed app do not silently switch to synthetic data.
+
 React 19 + TypeScript + Vite → same-origin Express API → authorization/validation → domain services → SQLite with foreign keys, WAL, transactions and append-only events. Migrations execute on server startup. Cookie sessions store only token hashes in the database. Internal views poll every 15 seconds; external records are snapshots with provenance and freshness dates.
 
 ## Demonstrate
