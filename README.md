@@ -52,6 +52,10 @@ Production serves `dist` and the API from one Express process. Set `NODE_ENV=pro
 
 ## Architecture
 
+### Hosting modes
+
+The GitHub Pages workflow publishes a **BureauSetu static demonstration** using synthetic browser data from `src/mockData.ts`. It is not the authenticated server application: browser-preview records and actions are temporary, and no backend authorization or persistent database is provided by Pages. Use the local Node server or a properly configured Node/Docker host for the real API, authentication, audit history and SQLite persistence. The static-preview banner identifies this distinction.
+
 React 19 + TypeScript + Vite → same-origin Express API → authorization/validation → domain services → SQLite with foreign keys, WAL, transactions and append-only events. Migrations execute on server startup. Cookie sessions store only token hashes in the database. Internal views poll every 15 seconds; external records are snapshots with provenance and freshness dates.
 
 ## Demonstrate

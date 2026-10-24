@@ -28,6 +28,9 @@ import {
 } from "lucide-react";
 import { api, send, ApiError } from "./api";
 import "./styles.css";
+const browserPreview =
+  window.location.hostname.endsWith(".github.io") ||
+  window.location.protocol === "file:";
 type User = {
   id: string;
   name: string;
@@ -178,7 +181,7 @@ function App() {
     [review, setReview] = useState<any>(null),
     [selectedInstitution, setSelectedInstitution] = useState<any>(null);
   const [loginEmail, setLoginEmail] = useState("admin@demo.local"),
-    [loginPassword, setLoginPassword] = useState("LocalDemo-26264!");
+    [loginPassword, setLoginPassword] = useState("");
   const loadGeneration = React.useRef(0);
   const query = new URLSearchParams(
     Object.entries(filters).filter(([, v]) => v),
@@ -604,12 +607,18 @@ function App() {
           <div className="demo-banner">
             <span>
               <span className="demo-dot" />
-              {demo ? "DEMONSTRATION ENVIRONMENT" : "WORKSPACE"}
+              {browserPreview
+                ? "BUREAUSETU · STATIC PREVIEW"
+                : demo
+                  ? "DEMONSTRATION ENVIRONMENT"
+                  : "WORKSPACE"}
             </span>
             <span>
-              {demo
-                ? "Synthetic institutions and complaints · Real database and workflows"
-                : "External bureau synchronization is not configured"}
+              {browserPreview
+                ? "Synthetic browser-only demonstration · No server database · Changes are temporary"
+                : demo
+                  ? "Synthetic institutions and complaints · Real database and workflows"
+                  : "External bureau synchronization is not configured"}
               <span className="banner-extra"> · No live AICTE connection</span>
             </span>
           </div>
@@ -796,18 +805,20 @@ function App() {
                       </div>
                       <div className="priority-body">
                         <strong>
-                          {
-                            institutions.find(
-                              (i) => i.id === r.a?.institution_id,
-                            )?.name || r.a?.institution_name || "Institution"
-                          }
+                          {institutions.find(
+                            (i) => i.id === r.a?.institution_id,
+                          )?.name ||
+                            r.a?.institution_name ||
+                            "Institution"}
                         </strong>
                         <p>{r.a?.title}</p>
                         <div className="inline-tags">
                           <Badge>{r.a?.bureau}</Badge>
                           <Link2 size={13} />
                           <Badge>{r.b?.bureau}</Badge>
-                          <span>{(r.reasons || []).length} matching signals</span>
+                          <span>
+                            {(r.reasons || []).length} matching signals
+                          </span>
                         </div>
                       </div>
                       <button
@@ -1065,10 +1076,10 @@ function App() {
                       </Badge>
                     </div>
                     <h2>
-                      {
-                        institutions.find((i) => i.id === r.a?.institution_id)
-                          ?.name || r.a?.institution_name || "Institution"
-                      }
+                      {institutions.find((i) => i.id === r.a?.institution_id)
+                        ?.name ||
+                        r.a?.institution_name ||
+                        "Institution"}
                     </h2>
                     <div className="comparison">
                       <div>

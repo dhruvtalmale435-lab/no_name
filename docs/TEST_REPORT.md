@@ -37,6 +37,8 @@ Brand rename to BureauSetu: browser title, login/sidebar branding, loading text,
 
 Completed rebrand verification: **29 API/domain tests passed, 7 browser journeys passed, production build passed and production startup/security smoke passed**. No old product-name references remain in tracked text files. The local renamed database passed `PRAGMA integrity_check` and retained all 13 cases; the original ignored database is retained as a backup. Environment secrets and runtime databases are excluded from Git.
 
+Repository integration: newer GitHub commits introducing a Pages build and synthetic browser preview were preserved during rebase. The production smoke test retains their relative-asset URL fix together with the BureauSetu title. The static-preview banner and README explicitly distinguish browser-only demonstration data from the server/database application; login fields do not prefill the local password.
+
 Browser outputs: `playwright-report/index.html` and `test-results/` (ignored generated files). Screenshots: `docs/screenshots/overview.png`, `docs/screenshots/mobile.png`. Desktop screenshot visually inspected; final screenshot refresh is part of final browser rerun.
 
 ## Defects found and resolved
