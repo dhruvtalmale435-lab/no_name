@@ -68,10 +68,4 @@ Full walkthrough, requirement matrix, schemas, API contracts, test outcomes and 
 
 ## Honest limits
 
-### GitHub Pages
-
-GitHub Pages serves a clearly labeled **frontend preview**, built by `.github/workflows/pages.yml` with the `/no_name/` asset base. In repository Settings → Pages, the publishing source must be **GitHub Actions**. This prevents Pages from serving uncompiled `src/main.tsx` (which produces a blank page).
-
-Pages cannot run Express or SQLite. The preview does not accept passwords or simulate persistence. For real login and case workflows, run the local server above or deploy the full Node/Docker service behind HTTPS with persistent storage and provisioned users. The normal local/production build retains the full application; only `GITHUB_PAGES=true` selects the static preview.
-
 SQLite instead of PostgreSQL; no live bureau adapters, SSO, semantic model, email/SMS, institution CRUD, retention automation, or hosted deployment. Imports accept CSV and JSON arrays. Attachments support TXT/PDF/PNG/JPG with a 2 MB limit, signature checks and authorized downloads; antivirus/CDR is not configured. Matching is explainable deterministic rules, not calibrated AI. Timeline policies are illustrative calendar days, not official AICTE rules. Monthly/quarterly reports count receipts and actual disposal actions, including repeated actions for reopened cases. A production pilot needs authorized data, identity provisioning, security/operational review and approved timelines. See `docs/FINAL_AUDIT.md`.

@@ -28,11 +28,6 @@ import {
 } from "lucide-react";
 import { api, send, ApiError } from "./api";
 import "./styles.css";
-const staticPreview = __STATIC_PREVIEW__;
-const previewImage = new URL(
-  "../docs/screenshots/overview.png",
-  import.meta.url,
-).href;
 type User = {
   id: string;
   name: string;
@@ -231,10 +226,6 @@ function App() {
     }
   }, [user, filters, currentPage]);
   useEffect(() => {
-    if (staticPreview) {
-      setBoot(false);
-      return;
-    }
     api("/me")
       .then((r) => {
         setUser(r.user);
@@ -335,116 +326,68 @@ function App() {
           <small>Independent SIH prototype · No live AICTE integration</small>
         </div>
         <div className="login-panel">
-          {staticPreview ? (
-            <section
-              className="pages-preview"
-              aria-label="GitHub Pages preview"
-            >
-              <Badge tone="amber">FRONTEND PREVIEW</Badge>
-              <h2>Institution 360</h2>
-              <p>
-                This GitHub Pages site displays the frontend preview. Secure
-                login, complaint records and coordination workflows require the
-                Node.js API and database server.
-              </p>
-              <a href={previewImage} target="_blank" rel="noreferrer">
-                <img
-                  src={previewImage}
-                  alt="Screenshot of the working Institution 360 dashboard with synthetic cases"
-                  style={{
-                    width: "100%",
-                    border: "1px solid #dce3df",
-                    borderRadius: 8,
-                    margin: "20px 0",
-                  }}
-                />
-              </a>
-              <div className="heading-actions">
-                <a className="primary" href="http://127.0.0.1:3000/">
-                  Open local application <ArrowRight size={16} />
-                </a>
-                <a
-                  className="secondary"
-                  href="https://github.com/dhruvtalmale435-lab/no_name#local-setup-powershell"
-                >
-                  Setup instructions
-                </a>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setBusy(true);
+              setError("");
+              try {
+                await api(
+                  "/login",
+                  send("POST", { email: loginEmail, password: loginPassword }),
+                );
+                const r = await api("/me");
+                setUser(r.user);
+                setDemo(r.demo);
+                setLoginPassword("");
+              } catch (e) {
+                setError((e as Error).message);
+              } finally {
+                setBusy(false);
+              }
+            }}
+          >
+            <Badge tone="green">AUTHORIZED OFFICIALS</Badge>
+            <h2>Welcome to your workspace</h2>
+            <p>Sign in to monitor cases and coordinate across bureaus.</p>
+            {error && (
+              <div className="error" role="alert">
+                {error}
               </div>
-              <p className="muted" style={{ marginTop: 18 }}>
-                The local link works when you have started this project on your
-                computer. Dashboard image uses synthetic data; this static
-                preview does not accept passwords or store complaints.
-              </p>
-            </section>
-          ) : (
-            <>
-              <form
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  setBusy(true);
-                  setError("");
-                  try {
-                    await api(
-                      "/login",
-                      send("POST", {
-                        email: loginEmail,
-                        password: loginPassword,
-                      }),
-                    );
-                    const r = await api("/me");
-                    setUser(r.user);
-                    setDemo(r.demo);
-                    setLoginPassword("");
-                  } catch (e) {
-                    setError((e as Error).message);
-                  } finally {
-                    setBusy(false);
-                  }
-                }}
-              >
-                <Badge tone="green">AUTHORIZED OFFICIALS</Badge>
-                <h2>Welcome to your workspace</h2>
-                <p>Sign in to monitor cases and coordinate across bureaus.</p>
-                {error && (
-                  <div className="error" role="alert">
-                    {error}
-                  </div>
-                )}
-                <label>
-                  Email address
-                  <input
-                    type="email"
-                    autoComplete="username"
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                    required
-                  />
-                </label>
-                <label>
-                  Password
-                  <input
-                    type="password"
-                    autoComplete="current-password"
-                    value={loginPassword}
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                    required
-                    maxLength={200}
-                  />
-                </label>
-                <button className="primary" disabled={busy}>
-                  {busy ? "Signing in…" : "Sign in to workspace"}
-                  <ArrowRight size={18} />
-                </button>
-                <div className="login-note">
-                  <ShieldCheck size={20} />
-                  <span>
-                    Local demo accounts are configured by the seed command. See
-                    the README for setup and available roles.
-                  </span>
-                </div>
-              </form>
-            </>
-          )}
+            )}
+            <label>
+              Email address
+              <input
+                type="email"
+                autoComplete="username"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Password
+              <input
+                type="password"
+                autoComplete="current-password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                required
+                maxLength={200}
+              />
+            </label>
+            <button className="primary" disabled={busy}>
+              {busy ? "Signing in…" : "Sign in to workspace"}
+              <ArrowRight size={18} />
+            </button>
+            <div className="login-note">
+              <ShieldCheck size={20} />
+              <span>
+                Local demo accounts are configured by the seed command. See the
+                README for setup and available roles.
+              </span>
+            </div>
+          </form>
         </div>
       </div>
     );
