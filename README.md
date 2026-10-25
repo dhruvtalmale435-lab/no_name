@@ -1,5 +1,9 @@
 # BureauSetu
 
+
+# https://dhruvtalmale435-lab.github.io/no_name/   
+THIS IS THE WEBSITE LINK PLEASE DO CHECK
+
 Working local prototype for **SIH26264 — Integrated Dashboard for Monitoring and Tracking Institution-Related Complaint Cases Across AICTE Bureaus/Cells**. Official requirements: [SIH 2026](https://sih.gov.in/sih2026PS). Independent prototype; no affiliation or live AICTE data connection is claimed.
 
 The core journey is **register/import → verify institution → identify cross-bureau relationships → human review → coordinate → audit**. Same-institution activity is distinguished from potential issue overlap. A confirmed duplicate remains a human finding; neither source case is merged or automatically disposed.
